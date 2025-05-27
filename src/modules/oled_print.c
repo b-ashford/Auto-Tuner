@@ -13,7 +13,7 @@ https://github.com/afiskon/stm32-ssd1306.git
 
 #include <stdio.h>
 #include "ssd1306.h"
-#include "oled_print.h"
+#include "modules/oled_print.h"
 #include <math.h>
 
 

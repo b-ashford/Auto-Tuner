@@ -9,7 +9,7 @@
 #include <string.h>
 #include <stdint.h>
 #include <math.h>
-#include "mpm.h"
+#include "modules/mpm.h"
 
 void mpm_mcleod_pitch_method_f32(float32_t *pData, float32_t *pitch_estimate)
 {

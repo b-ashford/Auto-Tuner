@@ -1,0 +1,10 @@
+{
+    "files.associations": {
+        "display.h": "c",
+        "main.h": "c",
+        "mpm.h": "c",
+        "signal.h": "c",
+        "motor.h": "c",
+        "tuner.h": "c"
+    }
+}

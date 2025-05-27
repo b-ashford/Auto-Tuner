@@ -6,7 +6,7 @@
  */
 
 //Header files
-#include "TJ_MPU6050.h"
+#include "drivers/TJ_MPU6050.h"
 
 //Library Variable
 //1- I2C Handle
