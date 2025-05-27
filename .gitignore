@@ -1,0 +1,59 @@
+# Object and executable files
+*.o
+*.obj
+*.out
+*.elf
+*.bin
+*.hex
+*.map
+*.lst
+
+# Build directories
+build/
+Debug/
+Release/
+*.build/
+
+# Dependency files
+*.d
+
+# VS Code settings (keep workspace configs)
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+!.vscode/extensions.json
+
+# Editor backups and temp files
+*~
+\#*\#
+*.swp
+
+# Logs
+*.log
+
+# CubeMX generated files
+*.ioc
+Drivers/
+Middlewares/
+
+# Third-party libraries
+vendor/
+libs/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100/
+.Trashes/
+Icon?
+
+# Windows thumbnail cache
+Thumbs.db
+ehthumbs.db
+
+# Misc system files
+Desktop.ini
