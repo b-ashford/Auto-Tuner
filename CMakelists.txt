@@ -1,0 +1,28 @@
+cmake_minimum_required(VERSION 3.10)
+
+# Set default toolchain if not specified
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/arm-none-eabi-toolchain.cmake)
+endif()
+
+project(AutoTuner C ASM)
+
+set(BOARD "Raptor_L431CBTx" CACHE STRING "Target board")
+
+include(cmake/paths.cmake)
+
+add_executable(${PROJECT_NAME})
+
+if(BOARD STREQUAL "Raptor_L431CBTx")
+    include(cmake/Raptor_L431CBTx.cmake)
+else()
+    message(FATAL_ERROR "Unsupported BOARD: ${BOARD}")
+endif()
+
+target_sources(${PROJECT_NAME} PRIVATE ${SOURCES})
+
+add_custom_target(flash
+    COMMAND openocd -f ${CMAKE_SOURCE_DIR}/tools/debug/Raptor_L431CBTx.cfg
+                    -c "program ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME} verify reset exit"
+    DEPENDS ${PROJECT_NAME}
+)
