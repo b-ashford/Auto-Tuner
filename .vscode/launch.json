@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Raptor Debug",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "openocd",
+            "configFiles": [
+                "tools/debug/Raptor_L431CBTx.cfg"
+            ],
+            "executable": "${workspaceFolder}/build/AutoTuner",
+            "device": "STM32L431CBTx",
+            "cwd": "${workspaceFolder}",
+            "runToEntryPoint": "",
+            "swoConfig": {
+                "enabled": true,
+                "source": "probe",
+                "swoFrequency": 2000000,
+                "cpuFrequency": 80000000,
+                "decoders": [
+                    {
+                        "port": 0,
+                        "type": "console",
+                        "label": "SWO output",
+                        "encoding": "ascii"
+                    }
+                ]
+            }
+        }
+    ]
+}
