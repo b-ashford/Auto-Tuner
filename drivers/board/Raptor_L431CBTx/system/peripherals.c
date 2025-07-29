@@ -10,21 +10,21 @@ DMA_HandleTypeDef hdma_adc1;
 //--------------------------------------//
 void MX_GPIO_Init(void)
 {
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
-    /* GPIO Ports Clock Enable */
-    __HAL_RCC_GPIOH_CLK_ENABLE();
-    __HAL_RCC_GPIOA_CLK_ENABLE();
-    __HAL_RCC_GPIOB_CLK_ENABLE();
+  /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
-    /*Configure GPIO pin Output Level */
-    HAL_GPIO_WritePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin, GPIO_PIN_RESET);
-    /*Configure GPIO pin : BLUE_LED_Pin */
-    GPIO_InitStruct.Pin = BLUE_LED_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-    HAL_GPIO_Init(BLUE_LED_GPIO_Port, &GPIO_InitStruct);
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin, GPIO_PIN_RESET);
+  /*Configure GPIO pin : BLUE_LED_Pin */
+  GPIO_InitStruct.Pin = BLUE_LED_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(BLUE_LED_GPIO_Port, &GPIO_InitStruct);
 }
 
 //--------------------------------------//
@@ -86,11 +86,11 @@ void MX_ADC1_Init(void)
   }
 }
 
-void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
+void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
-  if(adcHandle->Instance==ADC1)
+  if (adcHandle->Instance == ADC1)
   {
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_ADC;
     PeriphClkInit.AdcClockSelection = RCC_ADCCLKSOURCE_PLLSAI1;
@@ -129,13 +129,13 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef* adcHandle)
     {
       Error_Handler();
     }
-    __HAL_LINKDMA(adcHandle,DMA_Handle,hdma_adc1);
+    __HAL_LINKDMA(adcHandle, DMA_Handle, hdma_adc1);
   }
 }
 
-void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
+void HAL_ADC_MspDeInit(ADC_HandleTypeDef *adcHandle)
 {
-  if(adcHandle->Instance==ADC1)
+  if (adcHandle->Instance == ADC1)
   {
     __HAL_RCC_ADC_CLK_DISABLE();
     /**ADC1 GPIO Configuration PA0 ------> ADC1_IN5*/
@@ -143,5 +143,30 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef* adcHandle)
 
     /* ADC1 DMA DeInit */
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
+  }
+}
+
+//--------------------------------------//
+//                TIMERS                //
+//--------------------------------------//
+void MX_TIM6_Init(void)
+{
+
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  htim6.Instance = TIM6;
+  htim6.Init.Prescaler = 0;
+  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim6.Init.Period = 2000 - 1;
+  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
   }
 }

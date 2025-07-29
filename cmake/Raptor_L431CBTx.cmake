@@ -68,7 +68,7 @@ set(SOURCES
 
 # Raptor L431CBTx Board
 list(APPEND SOURCES
-    ${DIR_BOARD_RAPTOR_L431CBTx}/board_setup.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/board_interface.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/startup/startup_stm32l431xx.s
     ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_hal_msp.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_it.c
