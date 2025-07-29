@@ -1,0 +1,90 @@
+# STM32 Build Artifacts
+build/
+*.o
+*.d
+*.elf
+*.hex
+*.bin
+*.map
+*.lst
+*.su
+*.tmp
+
+# STM32 Debug Files
+*.launch
+.metadata/
+.settings/
+.project
+.cproject
+
+# External Libraries
+external/STM32CubeL4/
+
+# Python Debug Tools
+**pycache**/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+
+# macOS System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# macOS Resource Forks
+*/.DS_Store
+*/*/.DS_Store
+
+# Temporary Files
+*~
+*.swp
+*.swo
+*tmp*
+temp/
+tmp/
+
+# Backup Files
+*.bak
+*.backup
+*.old
+*.orig
+
+# OS Generated Files
+Icon?
+desktop.ini
+
+# Serial/UART Logs
+serial_*.log
+uart_*.log
+swo_*.log
+
+# CubeMX Backup
+*.ioc.backup*
+mx.scratch
+
+# Compiler/Toolchain Temp
+*.gch
+*.pch
+.deps/
+.libs/
+
+# Documentation Build
+docs/_build/
+*.pdf
+
+# IDE Specific
+*.cbp
+*.layout
+*.depend
+*.workspace
+*.session
