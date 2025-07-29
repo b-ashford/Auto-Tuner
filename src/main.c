@@ -7,7 +7,8 @@ int main(void)
   init_board();
   while (1)
   {
-    toggle_and_wait_led(100);
+    toggle_and_wait_led(500);
+    toggle_and_wait_led(50);
   }
 
 }
