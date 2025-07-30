@@ -69,7 +69,7 @@ set(SOURCES
 # Raptor L431CBTx Board
 list(APPEND SOURCES
     ${DIR_BOARD_RAPTOR_L431CBTx}/board_interface.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/startup/startup_stm32l431xx.s
+    ${DIR_BOARD_RAPTOR_L431CBTx}/startup/startup_stm32l431cbtx.s
     ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_hal_msp.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_it.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/debug/usart.c
@@ -98,4 +98,6 @@ list(APPEND SOURCES
     ${DIR_L4HAL}/Src/stm32l4xx_hal_adc_ex.c
     ${DIR_L4HAL}/Src/stm32l4xx_hal_uart_ex.c
     ${DIR_L4HAL}/Src/stm32l4xx_hal_rcc_ex.c
+    ${DIR_L4HAL}/Src/stm32l4xx_hal_tim.c
+    ${DIR_L4HAL}/Src/stm32l4xx_hal_tim_ex.c
 )
