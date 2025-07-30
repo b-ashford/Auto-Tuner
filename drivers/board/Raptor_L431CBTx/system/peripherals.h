@@ -21,8 +21,12 @@ void MX_DMA_Init(void);
 //--------------------------------------//
 extern ADC_HandleTypeDef hadc1;
 extern DMA_HandleTypeDef hdma_adc1;
-void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle);
-void HAL_ADC_MspDeInit(ADC_HandleTypeDef *adcHandle);
 void MX_ADC1_Init(void);
+
+//--------------------------------------//
+//                TIMERS                //
+//--------------------------------------//
+extern TIM_HandleTypeDef htim6;
+void MX_TIM6_Init(void);
 
 #endif /*__RAPTOR_L431CBTx_PERIPHERALS_H*/

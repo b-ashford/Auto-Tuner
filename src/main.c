@@ -8,8 +8,10 @@ int main(void)
   init_board();
   while (1)
   {
+
     board_copy_adc_samples(guitar_signal, ADC_BUF_LEN);
-    board_send_floats_uart(guitar_signal, 128);
-    toggle_and_wait_led(100);
+    board_send_floats_uart(guitar_signal, 1);
+    toggle_and_wait_led(10);
+    //test_uart_simple();
   }
 }
