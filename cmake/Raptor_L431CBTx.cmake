@@ -59,7 +59,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 #--------------------------------------#
 set(SOURCES
     ${DIR_SRC}/main.c
-    ${DIR_SRC}/debug-utils.c    
 )
 
 #--------------------------------------#
@@ -73,6 +72,7 @@ list(APPEND SOURCES
     ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_hal_msp.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_it.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/debug/usart.c
+        ${DIR_BOARD_RAPTOR_L431CBTx}/debug/debug-utils.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/system/clock_config.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/system/error_handler.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/system/peripherals.c

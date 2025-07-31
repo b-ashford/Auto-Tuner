@@ -117,3 +117,26 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle)
     HAL_DMA_DeInit(uartHandle->hdmatx);
   }
 }
+
+void uart_dma_sine_wave(void)
+{
+   static float adc_buffer[512];  // Buffer of 512 samples
+   static float phase = 0.0f;
+   
+   // Generate 512 samples of sine wave into buffer
+   for (int i = 0; i < 512; i++) {
+       // Generate sine wave: amplitude * sin(2 * pi * frequency * time)
+       // frequency = 300Hz, sample_rate = 8000Hz
+       float time = (phase + i) / 8000.0f;  // Current time in seconds
+       adc_buffer[i] = 200.0f * sinf(2.0f * 3.14159f * 300.0f * time);
+   }
+   
+   // Send entire buffer via DMA
+   if (huart1.gState == HAL_UART_STATE_READY) {
+       HAL_UART_Transmit_DMA(&huart1, (uint8_t*)adc_buffer, 512 * sizeof(float));
+       
+       // Advance phase for continuous wave across buffers
+       phase += 512.0f;  // Move forward by 512 samples
+       if (phase >= 8000.0f) phase = 0.0f;  // Reset after 1 second
+   }
+}

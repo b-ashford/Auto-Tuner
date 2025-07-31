@@ -36,27 +36,3 @@ void ITM_Init(void)
   TPI->ACPR = (80000000 / 2000000) - 1; // Set SWO speed (CPU_FREQ / SWO_FREQ - 1)
 }
 
-// Pre-calculated sine values (smoother)
-const int sine_table[100] = {
-    0, 6, 12, 18, 24, 30, 36, 42, 47, 52, 57, 62, 66, 70, 74, 77, 80, 82, 84, 86,
-    87, 88, 88, 88, 87, 86, 84, 82, 80, 77, 74, 70, 66, 62, 57, 52, 47, 42, 36, 30,
-    24, 18, 12, 6, 0, -6, -12, -18, -24, -30, -36, -42, -47, -52, -57, -62, -66, -70,
-    -74, -77, -80, -82, -84, -86, -87, -88, -88, -88, -87, -86, -84, -82, -80, -77,
-    -74, -70, -66, -62, -57, -52, -47, -42, -36, -30, -24, -18, -12, -6
-};
-
-void Stream_Sine_Wave(UART_HandleTypeDef *uart)
-{
-    static int angle = 0;
-    static uint32_t timestamp = 0;
-    
-    int sine_value = sine_table[angle];
-    
-    char buffer[50];
-    int len = snprintf(buffer, sizeof(buffer), "%lu,%d\n", timestamp, sine_value);
-    HAL_UART_Transmit(uart, (uint8_t*)buffer, len, 100);
-    
-    angle++;
-    if (angle >= 100) angle = 0;
-    timestamp++;
-}
