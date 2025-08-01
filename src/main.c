@@ -9,11 +9,11 @@ int main(void)
   init_board();
   while (1)
   {
-    uart_dma_sine_wave();
+    uart_dma_print_string("Hello World\n");
 
     //board_copy_adc_samples(guitar_signal, ADC_BUF_LEN);
     //board_send_floats_uart(guitar_signal, 1);
-    toggle_and_wait_led(250);
+    toggle_and_wait_led(500);
     //test_uart_simple();
   }
 }

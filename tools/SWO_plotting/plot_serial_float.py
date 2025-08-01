@@ -18,12 +18,12 @@ ser = create_serial_connection()
 def plot_data():
     """Real-time plot with connection recovery"""
     global ser  # Fix: declare ser as global
-    xlim = 500
+    xlim = 1024
     data = deque(maxlen=xlim)
     fig, ax = plt.subplots()
     line, = ax.plot([], [])
     ax.set_title('STM32 ADC Data')
-    ax.set_ylim(-2000, 2000)
+    ax.set_ylim(-5, 5)
     ax.set_xlim(0, xlim)
     ax.grid(True)
     
@@ -31,9 +31,9 @@ def plot_data():
     reconnect_count = 0
     
     def animate(i):
-        nonlocal last_data_time, reconnect_count  # Remove ser from nonlocal
-        global ser  # Fix: declare ser as global in animate too
-        
+        nonlocal last_data_time, reconnect_count  
+        global ser  
+
         try:
             if ser is None:
                 ser = create_serial_connection()
