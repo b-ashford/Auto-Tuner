@@ -7,13 +7,14 @@
 #include "debug/usart.h"
 #include <stdint.h>
 #include <stdio.h>
-#include "stm32l4xx_hal.h" 
+#include "stm32l4xx_hal.h"
+
 
 uint16_t adc_buffer[ADC_BUF_LEN];
 
 void init_board(void)
 {
-    //Initialises
+    // Initialises
     HAL_Init();
     SystemClock_Config();
     MX_GPIO_Init();
@@ -41,26 +42,6 @@ void board_copy_adc_samples(float *dest, uint16_t len)
 
     for (uint16_t i = 0; i < len; i++)
     {
-        dest[i] = (float)adc_buffer[i];
+        dest[i] = (float)adc_buffer[i] + 0.1f;  // Add 0.1 to see decimal
     }
 }
-
-static volatile uint8_t uart_tx_busy = 0;
-void board_send_floats_uart(const float *data, size_t len)
-{
-    static char buffer[128];
-    
-    if (huart1.gState == HAL_UART_STATE_READY) {
-        // Send one sample as CSV
-        int bytes = snprintf(buffer, sizeof(buffer), "%.1f\r\n", data[0]);
-        HAL_UART_Transmit_DMA(&huart1, (uint8_t*)buffer, bytes);
-    }
-}
-
-
-
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
-{
-  uart_tx_busy = 0;
-}
-

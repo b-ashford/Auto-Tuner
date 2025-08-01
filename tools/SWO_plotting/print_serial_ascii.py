@@ -11,8 +11,8 @@ def print_ascii():
                # Read available text data
                text_data = ser.read(ser.in_waiting).decode('utf-8', errors='ignore')
                
-               # Print the text (no extra formatting needed)
-               print(text_data, end='')  # end='' prevents double newlines
+
+               print(text_data, end='')  
                    
    except KeyboardInterrupt:
        print("\nStopped")
