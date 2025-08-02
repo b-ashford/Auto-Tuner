@@ -1,5 +1,6 @@
 
 #include "timer.h"
+#include "error_handler.h"
 
 TIM_HandleTypeDef htim6;
 

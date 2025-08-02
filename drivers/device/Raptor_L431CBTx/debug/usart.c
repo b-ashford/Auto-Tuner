@@ -104,7 +104,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *uartHandle)
   }
 }
 
-void uart_dma_test_float_sine_wave(void)
+void debug_uart_dma_test_float_sine_wave(void)
 {
    static float adc_buffer[TEST_BUFFER];
    static float phase = 0.0f;
@@ -115,13 +115,13 @@ void uart_dma_test_float_sine_wave(void)
    }
    
    // Send buffer
-   if (uart_dma_float_buffer(adc_buffer, TEST_BUFFER, (uint32_t) 250) == HAL_OK) {
+   if (debug_uart_dma_float_buffer(adc_buffer, TEST_BUFFER, (uint32_t) 250) == HAL_OK) {
        phase += 1.0f * TEST_BUFFER;
        if (phase >= 8000.0f) phase = 0.0f;
    }
 }
 
-HAL_StatusTypeDef uart_dma_float_buffer(float *buff, int len, uint32_t wait_ms)
+HAL_StatusTypeDef debug_uart_dma_float_buffer(float *buff, int len, uint32_t wait_ms)
 {
    static uint32_t last_send_time = 0;
    
@@ -144,7 +144,31 @@ HAL_StatusTypeDef uart_dma_float_buffer(float *buff, int len, uint32_t wait_ms)
    return result;
 }
 
-HAL_StatusTypeDef uart_dma_print_string(const char *str)
+HAL_StatusTypeDef debug_uart_dma_uint16_buffer(uint16_t *buff, int len, uint32_t wait_ms)
+{
+  static uint32_t last_send_time = 0;
+  
+  uint32_t current_time = HAL_GetTick();
+  
+  if (current_time - last_send_time < wait_ms) {
+      return HAL_BUSY; 
+  }
+  
+  if (huart1.gState != HAL_UART_STATE_READY) {
+      return HAL_BUSY;  
+  }
+  
+  HAL_StatusTypeDef result = HAL_UART_Transmit_DMA(&huart1, (uint8_t *)buff, len * sizeof(uint16_t));
+  
+  if (result == HAL_OK) {
+      last_send_time = current_time;
+  }
+  
+  return result;
+}
+
+
+HAL_StatusTypeDef debug_uart_dma_print_string(const char *str)
 {
    if (huart1.gState != HAL_UART_STATE_READY) {
        return HAL_BUSY;  

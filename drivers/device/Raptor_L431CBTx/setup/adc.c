@@ -2,15 +2,32 @@
 
 #include "adc.h"
 #include "gpio.h"
+#include "timer.h"
 #include "error_handler.h"
 #include "../debug/usart.h"
 
 ADC_HandleTypeDef hadc1;
 
+static adc_callback_t user_callback = NULL;
+
+//--------------------------------------//
+//              CALLBACKS               //
+//--------------------------------------//
+
+void adc_register_callback(adc_callback_t callback)
+{
+  user_callback = callback;
+}
+
+void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc)
+{
+  user_callback();
+}
 
 //--------------------------------------//
 //                SETUP                 //
 //--------------------------------------//
+
 void MX_ADC1_Init(void)
 {
   ADC_ChannelConfTypeDef sConfig = {0};
@@ -33,9 +50,9 @@ void MX_ADC1_Init(void)
   hadc1.Init.OversamplingMode = DISABLE;
   if (HAL_ADC_Init(&hadc1) != HAL_OK)
     Error_Handler();
-  
+
   /** Configure Regular Channel*/
-  sConfig.Channel = ADC_CHANNEL_8;
+  sConfig.Channel = ADC_CHANNEL_5;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SamplingTime = ADC_SAMPLETIME_2CYCLES_5;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
@@ -43,7 +60,6 @@ void MX_ADC1_Init(void)
   sConfig.Offset = 0;
   if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK)
     Error_Handler();
-  
 }
 
 void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle)
@@ -64,7 +80,7 @@ void HAL_ADC_MspInit(ADC_HandleTypeDef *adcHandle)
     PeriphClkInit.PLLSAI1.PLLSAI1ClockOut = RCC_PLLSAI1_ADC1CLK;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
       Error_Handler();
-    
+
     __HAL_RCC_ADC_CLK_ENABLE();
 
     /* ADC1 DMA Init */
@@ -94,18 +110,3 @@ void HAL_ADC_MspDeInit(ADC_HandleTypeDef *adcHandle)
     HAL_DMA_DeInit(adcHandle->DMA_Handle);
   }
 }
-
-//--------------------------------------//
-//              CALLBACKS               //
-//--------------------------------------//
-
-
-void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef* hadc) {
-    HAL_GPIO_TogglePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin);
-
-}
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef* hadc) {
-    
-    HAL_GPIO_TogglePin(BLUE_LED_GPIO_Port, BLUE_LED_Pin);
-}
-
