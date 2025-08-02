@@ -18,7 +18,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32l4xx_it.h"
-#include "system/peripherals.h"
 #include "debug/usart.h"
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_adc1;
@@ -133,10 +132,7 @@ void DMA1_Channel1_IRQHandler(void)
  * @brief This function handles DMA1 channel4 global interrupt.
  */
 void DMA1_Channel4_IRQHandler(void)
-{
-    static volatile int dma_irq_count = 0;
-    dma_irq_count++;
-    
+{    
     HAL_DMA_IRQHandler(&hdma_usart1_tx);
 }
 void USART1_IRQHandler(void)

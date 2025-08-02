@@ -18,23 +18,11 @@
   *
   ******************************************************************************
   */
-/* USER CODE END Header */
 
-/* Define to prevent recursive inclusion -------------------------------------*/
 #ifndef STM32L4xx_HAL_CONF_H
 #define STM32L4xx_HAL_CONF_H
 
-#ifdef __cplusplus
- extern "C" {
-#endif
 
-/* Exported types ------------------------------------------------------------*/
-/* Exported constants --------------------------------------------------------*/
-
-/* ########################## Module Selection ############################## */
-/**
-  * @brief This is the list of modules to be used in the HAL driver
-  */
 #define HAL_MODULE_ENABLED
 #define HAL_ADC_MODULE_ENABLED
 /*#define HAL_CRYP_MODULE_ENABLED   */
@@ -475,8 +463,5 @@
   #define assert_param(expr) ((void)0U)
 #endif /* USE_FULL_ASSERT */
 
-#ifdef __cplusplus
-}
-#endif
 
 #endif /* STM32L4xx_HAL_CONF_H */

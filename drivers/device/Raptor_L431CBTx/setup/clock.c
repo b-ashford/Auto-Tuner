@@ -1,5 +1,5 @@
 
-#include "system/error_handler.h"
+#include "setup/error_handler.h"
 #include "stm32l4xx_hal.h"
 
 void SystemClock_Config(void)

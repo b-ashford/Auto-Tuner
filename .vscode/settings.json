@@ -12,7 +12,9 @@
         "clock_config.h": "c",
         "stm32l4xx_hal_conf.h": "c",
         "stm32l4xx_it.h": "c",
-        "stdint.h": "c"
+        "stdint.h": "c",
+        "board_interface.h": "c",
+        "peripheral_conf.h": "c"
     },
     "files.exclude": {
         "build": false,

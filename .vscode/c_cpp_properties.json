@@ -9,9 +9,11 @@
       "includePath": [
         // Project
         "${workspaceFolder}/src",
-        // Board
-        "${workspaceFolder}/drivers/board/Raptor_L431CBTx",
-        "${workspaceFolder}/drivers/board/Raptor_L431CBTx/hal",
+        // device
+        "${workspaceFolder}/drivers/device/Raptor_L431CBTx",
+        "${workspaceFolder}/drivers/device/Raptor_L431CBTx/setup",
+        "${workspaceFolder}/drivers/device/Raptor_L431CBTx/system",
+
         // STM32L4_HAL
         "${workspaceFolder}/external/STM32CubeL4/STM32L4xx_HAL_Driver/Inc",
         "${workspaceFolder}/external/STM32CubeL4/CMSIS/Device/ST/STM32L4xx/Include",

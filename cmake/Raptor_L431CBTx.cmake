@@ -14,9 +14,8 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${DIR_SRC}
     ${DIR_BOARD_RAPTOR_L431CBTx}
     ${DIR_BOARD_RAPTOR_L431CBTx}/debug
-    ${DIR_BOARD_RAPTOR_L431CBTx}/hal
-    ${DIR_BOARD_RAPTOR_L431CBTx}/startup
     ${DIR_BOARD_RAPTOR_L431CBTx}/system
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup
     ${DIR_L4HAL}/Inc 
     ${DIR_CMSIS}/Device/ST/STM32L4xx/Include  
     ${DIR_CMSIS}/Include
@@ -67,18 +66,26 @@ set(SOURCES
 
 # Raptor L431CBTx Board
 list(APPEND SOURCES
-    ${DIR_BOARD_RAPTOR_L431CBTx}/board_interface.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/startup/startup_stm32l431cbtx.s
-    ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_hal_msp.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/hal/stm32l4xx_it.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/debug/usart.c
-        ${DIR_BOARD_RAPTOR_L431CBTx}/debug/debug-utils.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/system/clock_config.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/system/error_handler.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/system/peripherals.c
+    # startup
+    ${DIR_BOARD_RAPTOR_L431CBTx}/system/startup_stm32l431cbtx.s
+    # api
+    ${DIR_BOARD_RAPTOR_L431CBTx}/device_api.c
+    # drivers
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/adc.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/clock.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/dma.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/gpio.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/timer.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/error_handler.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/stm32l4xx_hal_msp.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/stm32l4xx_it.c
+    # system
     ${DIR_BOARD_RAPTOR_L431CBTx}/system/syscalls.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/system/sysmem.c
     ${DIR_BOARD_RAPTOR_L431CBTx}/system/system_stm32l4xx.c 
+    # debug
+    ${DIR_BOARD_RAPTOR_L431CBTx}/debug/usart.c
+    ${DIR_BOARD_RAPTOR_L431CBTx}/debug/debug-utils.c
 )
 
 #--------------------------------------#

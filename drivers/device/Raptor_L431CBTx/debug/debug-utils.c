@@ -3,6 +3,7 @@
 #include "stm32l4xx_hal.h" 
 #include "debug-utils.h"    
 #include <stdio.h>    
+#include <stdint.h>
 
 void init_debug(void)
 {

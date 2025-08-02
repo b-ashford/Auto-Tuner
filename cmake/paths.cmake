@@ -9,7 +9,7 @@ set(DIR_SRC "${CMAKE_SOURCE_DIR}/src")
 set(DIR_DRIVERS "${CMAKE_SOURCE_DIR}/drivers")
 
 #-------------- BOARDS --------------#
-set(DIR_BOARD "${DIR_DRIVERS}/board")
+set(DIR_BOARD "${DIR_DRIVERS}/device")
 set(DIR_BOARD_RAPTOR_L431CBTx "${DIR_BOARD}/Raptor_L431CBTx")
 
 
