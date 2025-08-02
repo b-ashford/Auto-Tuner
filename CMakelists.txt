@@ -13,6 +13,7 @@ include(cmake/paths.cmake)
 
 add_executable(${PROJECT_NAME})
 
+
 if(BOARD STREQUAL "Raptor_L431CBTx")
     include(cmake/Raptor_L431CBTx.cmake)
 else()

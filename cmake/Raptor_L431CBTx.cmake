@@ -58,6 +58,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 #--------------------------------------#
 set(SOURCES
     ${DIR_SRC}/main.c
+    ${DIR_SRC}/autotune.c
 )
 
 #--------------------------------------#
