@@ -15,7 +15,10 @@
         "stdint.h": "c",
         "board_interface.h": "c",
         "peripheral_conf.h": "c",
-        "autotune.h": "c"
+        "autotune.h": "c",
+        "stdio.h": "c",
+        "arm_math.h": "c",
+        "string.h": "c"
     },
     "files.exclude": {
         "build": false,
