@@ -15,9 +15,7 @@
 #include "mpm.h"
 #include "autotune.h"
 
-float32_t *mpm_reserved_memory = signal_buffer;
-
-
+static float32_t mpm_reserved_memory[2 * BLOCK_SIZE] = {0};
 
 void mpm_sum_f32(float32_t *pSrc, uint16_t scrLen, float32_t *pRes)
 {
@@ -103,7 +101,7 @@ void mpm_parabolic_interpolation_f32(uint16_t x_pos, float32_t a, float32_t b, f
 	*delta_tau = x_pos + delta_pos;
 }
 
-void mpm_mcleod_pitch_method_f32(float32_t *pData, float32_t *pitch_estimate)
+float mpm_get_pitch(float32_t *pData)
 {
 
 	float32_t *p_ncorr;
@@ -125,5 +123,6 @@ void mpm_mcleod_pitch_method_f32(float32_t *pData, float32_t *pitch_estimate)
 	float32_t delta_tau = 0;
 	mpm_parabolic_interpolation_f32(xp, a, b, c, &delta_tau);
 
-	*pitch_estimate = FS / delta_tau;
+	float pitch = FS * 1.0f / delta_tau;
+	return pitch;
 }

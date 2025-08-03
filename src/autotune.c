@@ -21,19 +21,30 @@ void start_autotune_mode(void)
 
 void autotune_mode(int buffer_section)
 {
+    uint32_t start_cycles = DWT->CYCCNT;
+
     device_toggle_led();
     if (buffer_section == FIRST_HALF)
         adc_to_guitar_signal(&adc_buffer[0], signal_buffer);
-    else // SECOND_HALF
+    else
         adc_to_guitar_signal(&adc_buffer[SIGNAL_BUFF_LEN], signal_buffer);
 
-    // debug_uart_dma_uint16_buffer(adc_buffer, SIGNAL_BUFF_LEN, 250);
-    debug_uart_dma_float_buffer(signal_buffer, SIGNAL_BUFF_LEN, 250);
+    float pitch = mpm_get_pitch(signal_buffer);
+
+    uint32_t end_cycles = DWT->CYCCNT;
+    uint32_t processing_cycles = end_cycles - start_cycles;
+
+    // Convert to microseconds (80MHz CPU)
+    float processing_time_us = (float)processing_cycles / 80.0f;
+
+    // Pack both values into single array
+    float debug_data[2] = {pitch, processing_time_us};
+    debug_uart_dma_float_buffer(debug_data, 2, 500);
 }
 
 void adc_to_guitar_signal(uint16_t *src, float32_t *guitar_signal)
 {
-    int dc_bias = 2280;
+    int dc_bias = 2280.0f;
     for (int i = 0; i < SIGNAL_BUFF_LEN; i++)
         guitar_signal[i] = (float32_t)src[i] - dc_bias;
 

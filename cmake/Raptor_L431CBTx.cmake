@@ -36,7 +36,8 @@ set(MCU "${CPU} -mthumb ${FPU} ${FLOAT_ABI}")
 #--------------------------------------#
 set(CMAKE_C_FLAGS "${MCU} -Wall -fdata-sections -ffunction-sections")
 set(CMAKE_C_FLAGS_DEBUG "-Og -g -gdwarf-2")
-set(CMAKE_C_FLAGS_RELEASE "-Os")
+#set(CMAKE_C_FLAGS_RELEASE "-Os") # size optimisation
+set(CMAKE_C_FLAGS_RELEASE "-O2") # speed optimisation
 
 # Assembly flags
 set(CMAKE_ASM_FLAGS "${MCU} -Wall -fdata-sections -ffunction-sections")

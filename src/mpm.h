@@ -12,8 +12,9 @@
 
 #define FS 8000
 #define BLOCK_SIZE 1024
-#define PEAK_THRESHOLD 0.9
+#define PEAK_THRESHOLD 0.5
 
+float mpm_get_pitch(float32_t *pData);
 void mpm_sum_f32(float32_t *pSrc, uint16_t scrLen, float32_t *pRes);
 void mpm_find_peak_f32(float32_t *pSrc, uint16_t *tau);
 void mpm_NSDF_f32(float32_t *pSrc, float32_t **pDst);
@@ -23,6 +24,6 @@ void mpm_parabolic_interpolation_f32(
     float32_t b,
     float32_t c,
     float32_t *delta_tau);
-void mpm_mcleod_pitch_method_f32(float32_t *pSrc, float32_t *pitch_estimate);
+
 
 #endif
