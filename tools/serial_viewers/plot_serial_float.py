@@ -23,7 +23,7 @@ def plot_data():
    fig, ax = plt.subplots()
    line, = ax.plot([], [])
    ax.set_title('STM32 ADC Data (Press R to restart)')
-   ax.set_ylim(-5, 500)
+   ax.set_ylim(-2500, 2500)
    ax.set_xlim(0, xlim)
    ax.grid(True)
    
