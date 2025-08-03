@@ -19,6 +19,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${DIR_L4HAL}/Inc 
     ${DIR_CMSIS}/Device/ST/STM32L4xx/Include  
     ${DIR_CMSIS}/Include
+    ${DIR_CMSIS}/DSP/Include
 )
 
 
@@ -50,6 +51,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     c
     m
     nosys
+    ${DIR_CMSIS}/DSP/Lib/GCC/libarm_cortexM4lf_math.a
 )
 
 
@@ -59,6 +61,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 set(SOURCES
     ${DIR_SRC}/main.c
     ${DIR_SRC}/autotune.c
+    ${DIR_SRC}/mpm.c
 )
 
 #--------------------------------------#
@@ -109,3 +112,6 @@ list(APPEND SOURCES
     ${DIR_L4HAL}/Src/stm32l4xx_hal_tim.c
     ${DIR_L4HAL}/Src/stm32l4xx_hal_tim_ex.c
 )
+
+
+
