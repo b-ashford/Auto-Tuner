@@ -1,0 +1,8 @@
+
+*.py linguist-detectable=true
+tools/ linguist-vendored=false
+external/ linguist-vendored=true
+
+# Ensure consistent line endings for C files
+*.c text eol=lf
+*.h text eol=lf
