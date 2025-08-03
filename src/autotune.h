@@ -7,7 +7,6 @@
 #define SIGNAL_BUFF_LEN 1024
 #define ADC_BUFF_LEN 2 * SIGNAL_BUFF_LEN
 
-#define NUM_IIR_STAGES 1
 enum
 {
     FIRST_HALF,
