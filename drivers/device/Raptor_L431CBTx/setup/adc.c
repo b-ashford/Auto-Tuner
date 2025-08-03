@@ -7,27 +7,27 @@
 #include "../debug/usart.h"
 
 ADC_HandleTypeDef hadc1;
-
 static adc_callback_t user_callback = NULL;
 
 //--------------------------------------//
 //              CALLBACKS               //
 //--------------------------------------//
-
 void adc_register_callback(adc_callback_t callback)
 {
   user_callback = callback;
 }
-
 void HAL_ADC_ConvHalfCpltCallback(ADC_HandleTypeDef *hadc)
 {
-  user_callback();
+  user_callback(HALF_CALLBACK);
+}
+void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+{
+  user_callback(FULL_CALLBACK);
 }
 
 //--------------------------------------//
 //                SETUP                 //
 //--------------------------------------//
-
 void MX_ADC1_Init(void)
 {
   ADC_ChannelConfTypeDef sConfig = {0};

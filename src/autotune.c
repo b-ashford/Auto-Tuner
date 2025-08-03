@@ -1,21 +1,45 @@
 
 #include "autotune.h"
 #include "device_api.h"
-
+#include "mpm.h"
 #include "debug/usart.h"
+#include "filter.h"
 
-// static float guitar_signal[ADC_BUF_LEN];
+float32_t signal_buffer[SIGNAL_BUFF_LEN];
 uint16_t adc_buffer[ADC_BUFF_LEN];
 
 void start_autotune_mode(void)
 {
-    device_register_adc_conv_complete_callback(process_adc);
+    device_register_adc_conv_complete_callback(autotune_mode);
+    arm_biquad_cascade_df1_init_f32(
+        &iir_settings,
+        NUM_IIR_STAGES,
+        &iir_taps[0],
+        &iir_state[0]);
     device_start_adc(adc_buffer, ADC_BUFF_LEN);
 }
 
-void process_adc(void)
+void autotune_mode(int buffer_section)
 {
     device_toggle_led();
+    if (buffer_section == FIRST_HALF)
+        adc_to_guitar_signal(&adc_buffer[0], signal_buffer);
+    else // SECOND_HALF
+        adc_to_guitar_signal(&adc_buffer[SIGNAL_BUFF_LEN], signal_buffer);
 
-    debug_uart_dma_uint16_buffer(adc_buffer, ADC_BUFF_LEN / 2, 250);
+    // debug_uart_dma_uint16_buffer(adc_buffer, SIGNAL_BUFF_LEN, 250);
+    debug_uart_dma_float_buffer(signal_buffer, SIGNAL_BUFF_LEN, 250);
+}
+
+void adc_to_guitar_signal(uint16_t *src, float32_t *guitar_signal)
+{
+    int dc_bias = 2280;
+    for (int i = 0; i < SIGNAL_BUFF_LEN; i++)
+        guitar_signal[i] = (float32_t)src[i] - dc_bias;
+
+    arm_biquad_cascade_df1_f32(
+        &iir_settings,
+        guitar_signal,
+        guitar_signal,
+        SIGNAL_BUFF_LEN);
 }
