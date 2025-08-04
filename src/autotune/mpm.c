@@ -8,6 +8,7 @@
  */
 
 #include "mpm.h"
+#include "filter.h"
 
 //==============================================================================
 // Private Constants & Memory
@@ -216,11 +217,16 @@ static uint16_t mpm_find_peak_bin_f32(float32_t *signal, int len, float threshol
 
 static float32_t *mpm_NSDF_f32(float32_t *src, int len)
 {
+	
+
 	float32_t *xcorr = &mpm_reserved_memory_f32[1];
-
 	arm_correlate_f32(&src[0], len, &src[0], len, xcorr);
-
 	float32_t *r = &xcorr[len - 1];
+
+	//float32_t *xcorr = &mpm_reserved_memory_f32[len];
+	//one_sided_autocorr_f32(src, xcorr, len);
+	//float32_t *r = xcorr;
+	
 	float32_t *nsdf = r;
 
 	float32_t *xs = &mpm_reserved_memory_f32[0];

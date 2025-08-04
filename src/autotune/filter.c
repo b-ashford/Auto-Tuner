@@ -43,7 +43,7 @@ void init_iir_filter_q15(void)
         0);
 }
 
-void preprocess_and_filter_adc_f32(uint16_t *src, float32_t *guitar_signal, int len)
+void filter_and_remove_dc_f32(uint16_t *src, float32_t *guitar_signal, int len)
 {
     int dc_bias = 2280.0f;
     for (int i = 0; i < len; i++)
@@ -56,7 +56,7 @@ void preprocess_and_filter_adc_f32(uint16_t *src, float32_t *guitar_signal, int 
         len);
 }
 
-void preprocess_and_filter_adc_q15(uint16_t *src, q15_t *guitar_signal, int len)
+void filter_and_remove_dc_q15(uint16_t *src, q15_t *guitar_signal, int len)
 {
     const int16_t dc_bias = 2280;
     for (int i = 0; i < len; i++)
@@ -69,4 +69,13 @@ void preprocess_and_filter_adc_q15(uint16_t *src, q15_t *guitar_signal, int len)
         guitar_signal,
         guitar_signal,
         len);
+}
+void one_sided_autocorr_f32(const float32_t *src, float32_t *xcorr, uint32_t len)
+{
+    for (uint32_t tau = 0; tau < len; tau++)
+    {
+        float32_t result;
+        arm_dot_prod_f32(src, src + tau, len - tau, &result);
+        xcorr[tau] = result;
+    }
 }
