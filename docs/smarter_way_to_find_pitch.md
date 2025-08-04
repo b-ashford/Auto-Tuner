@@ -40,7 +40,7 @@ r_t(\tau) = \sum_{j=t}^{t+W-1} x_j\,x_{j+\tau}
 \tag{1}
 $$
 
-where $r_t(\tau)$ is the autocorrelation function of lag $\tau$ calculated starting at time index $t$, where $W$ is the initial window size, i.e.\ the number of terms in the summation.
+where $r_t(\tau)$ is the autocorrelation function of lag $\tau$ calculated starting at time index $t$, where $W$ is the initial window size, i.e the number of terms in the summation.
 
 We will define the ACF type II as:
 
@@ -49,7 +49,7 @@ r'_t(\tau) = \sum_{j=t}^{t+W-1-\tau} x_j\,x_{j+\tau}
 \tag{2}
 $$
 
-In this definition the window size decreases with increasing $\tau$. This has a tapering effect, with a smaller number of non-zero terms being used in the calculation at larger $\tau$. Note that ACF Type I and Type II are the same for a zero-padded data set, i.e.\ $x_k = 0$ for $k > t + W - 1$.
+In this definition the window size decreases with increasing $\tau$. This has a tapering effect, with a smaller number of non-zero terms being used in the calculation at larger $\tau$. Note that ACF Type I and Type II are the same for a zero-padded data set, i.e $x_k = 0$ for $k > t + W - 1$.
 
 <h2 align="center">3. SQUARE DIFFERENCE FUNCTION</h2>
 
@@ -63,21 +63,24 @@ $$
 and the SDF Type II is defined as:
 
 $$
-d'_t(\tau) = \sum_{j=t}^{t+W-1-\tau} (x_j - x_{j+\tau})^2
+d'_t(\tau)=\sum_{j=t}^{\,t+W-1-\tau}
+\bigl(x_j - x_{j+\tau}\bigr)^2
 \tag{4}
 $$
 
 As in Type II ACF, the window size decreases as we increase $\tau$. In both types of SDFs minima occur when $\tau$ is a multiple of the period, whereas in the ACFs maxima occurred. These do not always coincide. If we expand out Equation 4 we see that there is an ACF inside the SDF calculation.
 
 $$
-d'_t(\tau) = \sum_{j=t}^{t+W-1-\tau} \bigl(x_j^2 + x_{j+\tau}^2 - 2\,x_j x_{j+\tau}\bigr)
+d'_t(\tau)=\sum_{j = t}^{\,t + W - 1 - \tau}
+\bigl(x_j^2 + x_{j+\tau}^2 - 2\,x_j\,x_{j+\tau}\bigr)
 \tag{5}
 $$
 
 If we define
 
 $$
-m'_t(\tau) = \sum_{j=t}^{t+W-1-\tau} (x_j^2 + x_{j+\tau}^2)
+m'_t(\tau)=\sum_{j = t}^{\,t + W - 1 - \tau}
+\bigl(x_j^2 + x_{j+\tau}^2\bigr)
 \tag{6}
 $$
 
@@ -100,7 +103,7 @@ n'_t(\tau) = 1 - \frac{m'_t(\tau) - 2\,r'_t(\tau)}{m'_t(\tau)}
 $$
 
 $$
-\phantom{n'_t(\tau)} = \frac{2\,r'_t(\tau)}{m'_t(\tau)}
+= \frac{2\,r'_t(\tau)}{m'_t(\tau)}
 \tag{9}
 $$
 
@@ -159,7 +162,7 @@ time by use of the Fast Fourier Transform (FFT). The ACF component $r'_t(\tau)$ 
 
 The two terms of $m'_t(\tau)$ from Equation 6 can each be calculated incrementally, by simply using the result from $\tau-1$ and subtracting the appropriate $x_j^2$ (starting, when $\tau=0$, with both sums equal to the total sum of squares of the whole window, which we already have in $r'_t(0)$).
 
-Typical window sizes we use for a 44 100 Hz signal are 512, 1024, 2048 or 4096 samples, with 75 % overlap in time, i.e.\ incrementing $t$ by $W/4$.
+Typical window sizes we use for a 44 100 Hz signal are 512, 1024, 2048 or 4096 samples, with 75 % overlap in time, i.e incrementing $t$ by $W/4$.
 
 <h2 align="center">7. THE CLARITY MEASURE</h2>
 We define clarity as a measure of how coherent a note sound is. If a signal contains a more accurately repeating waveform, then it is clearer. This is similar to the term voiced, used in speech recognition. Clarity is independent of the amplitude or harmonic structure of the signal. As a signal becomes more noise-like, its clarity decreases toward zero. The clarity is simply taken as the correlation value of the chosen key maximum. If no key maxima are found, it is set to zero.
