@@ -18,7 +18,9 @@
         "autotune.h": "c",
         "stdio.h": "c",
         "arm_math.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "compare": "c",
+        "cstdint": "c"
     },
     "files.exclude": {
         "build": false,

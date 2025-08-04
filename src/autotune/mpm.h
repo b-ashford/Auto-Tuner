@@ -4,7 +4,8 @@
  *
  * Implementation of the McLeod Pitch Method for robust fundamental
  * frequency estimation using normalised square difference function.
- *
+ * See: docs/smarter_way_to_find_pitch.md
+ * 
  * @author Bronston Ashford
  * @date 26 Jul. 2022
  */
@@ -22,7 +23,8 @@
  *  @note Must accommodate 2x signal length for internal correlation buffer
  */
 
-#define MPM_MAX_SIGNAL_SIZE 2048 // Needs to fit 2*signal length at minimum
+#define MPM_MAX_SIGNAL_SIZE 2048 
+#define Q15_TO_FLOAT (1.0f / 32768.0f) 
 
 //==============================================================================
 // Public API
@@ -47,4 +49,9 @@ float mpm_get_pitch_f32(
     int sample_rate,
     float threshold);
 
+float mpm_get_pitch_q15(
+	q15_t *signal,
+	int signal_len,
+	int sample_rate,
+	int threshold);
 #endif

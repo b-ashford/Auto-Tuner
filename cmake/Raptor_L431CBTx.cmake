@@ -12,6 +12,7 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 target_include_directories(${PROJECT_NAME} PRIVATE
 
     ${DIR_SRC}
+    ${DIR_SRC}/autotune
     ${DIR_BOARD_RAPTOR_L431CBTx}
     ${DIR_BOARD_RAPTOR_L431CBTx}/debug
     ${DIR_BOARD_RAPTOR_L431CBTx}/system
@@ -61,8 +62,9 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 #--------------------------------------#
 set(SOURCES
     ${DIR_SRC}/main.c
-    ${DIR_SRC}/autotune.c
-    ${DIR_SRC}/mpm.c
+    ${DIR_SRC}/autotune/autotune.c
+    ${DIR_SRC}/autotune/mpm.c
+    ${DIR_SRC}/autotune/filter.c
 )
 
 #--------------------------------------#

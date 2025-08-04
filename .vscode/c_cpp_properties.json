@@ -9,6 +9,7 @@
       "includePath": [
         // Project
         "${workspaceFolder}/src",
+         "${workspaceFolder}/src/autotune",
         // device
         "${workspaceFolder}/drivers/device/Raptor_L431CBTx",
         "${workspaceFolder}/drivers/device/Raptor_L431CBTx/setup",
