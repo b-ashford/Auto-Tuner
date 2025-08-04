@@ -9,6 +9,9 @@ float32_t signal_buffer_f32[SIGNAL_BUFF_LEN];
 q15_t signal_buffer_q15[SIGNAL_BUFF_LEN];
 uint16_t adc_buffer[ADC_BUFF_LEN];
 
+static void process_adc(int buffer_section);
+
+
 //==============================================================================
 // Public API
 //==============================================================================
@@ -16,7 +19,6 @@ uint16_t adc_buffer[ADC_BUFF_LEN];
 void start_autotune_mode(void)
 {
     device_register_adc_conv_complete_callback(autotune_mode);
-    //init_iir_filter_f32();
     init_iir_filter_f32();
     device_start_adc(adc_buffer, ADC_BUFF_LEN);
 }
@@ -24,18 +26,8 @@ void start_autotune_mode(void)
 void autotune_mode(int buffer_section)
 {
     uint32_t start_cycles = DWT->CYCCNT;
-
+    process_adc(buffer_section);
     device_toggle_led();
-    if (buffer_section == FIRST_HALF)
-        preprocess_and_filter_adc_f32(
-            &adc_buffer[0],
-            signal_buffer_f32,
-            SIGNAL_BUFF_LEN);
-    else
-        preprocess_and_filter_adc_f32(
-            &adc_buffer[SIGNAL_BUFF_LEN],
-            signal_buffer_f32,
-            SIGNAL_BUFF_LEN);
 
     float pitch = mpm_get_pitch_f32(
         signal_buffer_f32,
@@ -58,3 +50,16 @@ void autotune_mode(int buffer_section)
 // Private
 //==============================================================================
 
+static void process_adc(int buffer_section)
+{
+    if (buffer_section == FIRST_HALF)
+        filter_and_remove_dc_f32(
+            &adc_buffer[0],
+            signal_buffer_f32,
+            SIGNAL_BUFF_LEN);
+    else
+        filter_and_remove_dc_f32(
+            &adc_buffer[SIGNAL_BUFF_LEN],
+            signal_buffer_f32,
+            SIGNAL_BUFF_LEN);
+}
