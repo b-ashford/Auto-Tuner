@@ -45,9 +45,15 @@ void init_iir_filter_q15(void)
 
 void filter_and_remove_dc_f32(uint16_t *src, float32_t *guitar_signal, int len)
 {
-    int dc_bias = 2280.0f;
+    int dc_bias = 2280;  // No need for .0f on an int
+    
+    // For 12-bit ADC: max value is 4095
+    // After removing DC bias, range is approximately ±1815
+    // So divide by max expected amplitude
+    float32_t scale = 1.0f / 1815.0f;  // Adjust based on your ADC range
+    
     for (int i = 0; i < len; i++)
-        guitar_signal[i] = (float32_t)src[i] - dc_bias;
+        guitar_signal[i] = ((float32_t)src[i] - dc_bias) * scale;
 
     arm_biquad_cascade_df1_f32(
         &iir_settings_f32,
@@ -69,13 +75,4 @@ void filter_and_remove_dc_q15(uint16_t *src, q15_t *guitar_signal, int len)
         guitar_signal,
         guitar_signal,
         len);
-}
-void one_sided_autocorr_f32(const float32_t *src, float32_t *xcorr, uint32_t len)
-{
-    for (uint32_t tau = 0; tau < len; tau++)
-    {
-        float32_t result;
-        arm_dot_prod_f32(src, src + tau, len - tau, &result);
-        xcorr[tau] = result;
-    }
 }

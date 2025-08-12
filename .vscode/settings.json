@@ -20,7 +20,8 @@
         "arm_math.h": "c",
         "string.h": "c",
         "compare": "c",
-        "cstdint": "c"
+        "cstdint": "c",
+        "mpm.h": "c"
     },
     "files.exclude": {
         "build": false,

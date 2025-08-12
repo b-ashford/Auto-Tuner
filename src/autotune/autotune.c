@@ -11,7 +11,6 @@ uint16_t adc_buffer[ADC_BUFF_LEN];
 
 static void process_adc(int buffer_section);
 
-
 //==============================================================================
 // Public API
 //==============================================================================
@@ -25,16 +24,19 @@ void start_autotune_mode(void)
 
 void autotune_mode(int buffer_section)
 {
-    uint32_t start_cycles = DWT->CYCCNT;
+    
     process_adc(buffer_section);
     device_toggle_led();
-
+    uint32_t start_cycles = DWT->CYCCNT;
     float pitch = mpm_get_pitch_f32(
         signal_buffer_f32,
         SIGNAL_BUFF_LEN,
         ADC_SAMPLE_RATE,
-        0.9);
+        LAG_STOP_SEARCH,
+        CLARITY_RATIO,
+        PEAK_THRESHOLD);
 
+    // debug_uart_dma_float_buffer(signal_buffer_f32, SIGNAL_BUFF_LEN, 100);
     uint32_t end_cycles = DWT->CYCCNT;
     uint32_t processing_cycles = end_cycles - start_cycles;
 

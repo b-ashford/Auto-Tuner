@@ -63,8 +63,7 @@ $$
 and the SDF Type II is defined as:
 
 $$
-d'_t(\tau)=\sum_{j=t}^{\,t+W-1-\tau}
-\bigl(x_j - x_{j+\tau}\bigr)^2
+d'_t(\tau)=\sum_{j=t}^{\,t+W-1-\tau}\bigl(x_j - x_{j+\tau}\bigr)^2
 \tag{4}
 $$
 
@@ -79,8 +78,7 @@ $$
 If we define
 
 $$
-m'_t(\tau)=\sum_{j = t}^{\,t + W - 1 - \tau}
-\bigl(x_j^2 + x_{j+\tau}^2\bigr)
+m'_t(\tau)=\sum_{j = t}^{\,t + W - 1 - \tau}\bigl(x_j^2 + x_{j+\tau}^2\bigr)
 \tag{6}
 $$
 

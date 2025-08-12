@@ -19,12 +19,9 @@
 // Configuration Constants
 //==============================================================================
 
-/** @brief Maximum signal length supported by MPM algorithm
- *  @note Must accommodate 2x signal length for internal correlation buffer
- */
-
-#define MPM_MAX_SIGNAL_SIZE 2048 
-#define Q15_TO_FLOAT (1.0f / 32768.0f) 
+#define MAX_NUM_PEAKS 15
+#define EPS 0.001f
+#define MPM_BUFF_SIZE 150
 
 //==============================================================================
 // Public API
@@ -43,15 +40,12 @@
  * @note Function uses internal static memory for correlation calculations
  * @note Higher threshold values require stronger, clearer pitch signals
  */
-float mpm_get_pitch_f32(
+float32_t mpm_get_pitch_f32(
     float32_t *signal,
-    int signal_len,
-    int sample_rate,
-    float threshold);
+    const uint32_t len,
+    const uint32_t fs,
+    const uint32_t stop_search,
+    const float32_t clarity_ratio,
+    const float32_t peak_threshold);
 
-float mpm_get_pitch_q15(
-	q15_t *signal,
-	int signal_len,
-	int sample_rate,
-	int threshold);
 #endif
