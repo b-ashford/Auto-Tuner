@@ -7,7 +7,7 @@
  * See: docs/smarter_way_to_find_pitch.md
  * 
  * @author Bronston Ashford
- * @date 26 Jul. 2022
+ * @date 15 Aug 2025
  */
 
 #ifndef MPM_H
@@ -26,19 +26,18 @@
 //==============================================================================
 // Public API
 //==============================================================================
-
 /**
- * @brief Extract fundamental frequency from audio signal using McLeod Pitch Method
+ * @brief   Detect fundamental frequency with McLeod Pitch Method (MPM).
  *
- * @param signal      Input audio signal buffer
- * @param signal_len  Length of input signal (must be <= MPM_MAX_SIGNAL_SIZE/2)
- * @param sample_rate Sample rate of input signal in Hz
- * @param threshold   Peak detection threshold (typically 0.3 - 0.9)
+ * @param   signal         Input audio buffer (float32_t).
+ * @param   len            Signal length.
+ * @param   fs             Sampling rate in Hz.
+ * @param   stop_search    Stop searching for peaks at lag number stop_search.
+ * @param   clarity_ratio  Threshold for determining the dominant peak.
+ * @param   peak_threshold Aboslute threshold for peak picking
  *
- * @return Detected fundamental frequency in Hz, or 0.0f if no pitch found
- *
- * @note Function uses internal static memory for correlation calculations
- * @note Higher threshold values require stronger, clearer pitch signals
+ * @return  Fundamental frequency in Hz, or 0.0f if none detected.
+ * @note    Destroys input signal.
  */
 float32_t mpm_get_pitch_f32(
     float32_t *signal,

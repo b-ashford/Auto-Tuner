@@ -31,6 +31,7 @@ static void xcorr_positive_sided(
 	const float32_t *in2,
 	const uint32_t len,
 	float32_t *out);
+
 //==============================================================================
 // Public API
 //==============================================================================
@@ -59,10 +60,10 @@ float32_t mpm_get_pitch_f32(
     float32_t delta_lag = parabolic_interpolation(lag, a, b, c);
     return fs / delta_lag;
 }
+
 //==============================================================================
 // Private
 //==============================================================================
-
 static void nsdf(float32_t *signal, const uint32_t len, float32_t *out)
 {
     xcorr_positive_sided(signal, signal, len, out);
