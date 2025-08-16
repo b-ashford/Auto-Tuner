@@ -16,11 +16,10 @@ enum
     SEDOND_HALF
 };
 
-extern uint16_t adc_buffer[ADC_BUFF_LEN];
-extern float32_t signal_buffer_f32[SIGNAL_BUFF_LEN];
 
 void start_autotune_mode(void);
 void autotune_mode(int buffer_section);
 
 
 #endif /* AUTOTUNE_H */
+
