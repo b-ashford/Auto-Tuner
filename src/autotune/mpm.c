@@ -35,7 +35,7 @@ static void xcorr_positive_sided(
 //==============================================================================
 // Public API
 //==============================================================================
-float32_t mpm_get_pitch_f32(
+float mpm_get_pitch_f32(
     float32_t *signal,
     const uint32_t len,
     const uint32_t fs,
@@ -58,7 +58,7 @@ float32_t mpm_get_pitch_f32(
     float32_t c = nsdf_signal[lag + 1];
 
     float32_t delta_lag = parabolic_interpolation(lag, a, b, c);
-    return fs / delta_lag;
+    return (float) (fs / delta_lag);
 }
 
 //==============================================================================
@@ -193,20 +193,7 @@ static inline float32_t parabolic_interpolation(float32_t x_pos,
                                                 float32_t b,
                                                 float32_t c)
 {
-    // Guard: log10 requires positive inputs
-    const float32_t eps = 1e-12f;
-    if (a <= 0.0f || b <= 0.0f || c <= 0.0f)
-        return x_pos;
-
-    a = 20.0f * log10f(a);
-    b = 20.0f * log10f(b);
-    c = 20.0f * log10f(c);
-
-    float32_t denom = (a - 2.0f * b + c);
-    if (fabsf(denom) < eps)
-        return x_pos;
-
-    float32_t delta_pos = 0.5f * (a - c) / denom;
-    return x_pos + delta_pos;
+    float denom = (a - 2.0f*b + c);
+    if (fabsf(denom) < 1e-12f) return x_pos;
+    return x_pos + 0.5f*(a - c)/denom;
 }
-

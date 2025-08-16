@@ -39,7 +39,7 @@
  * @return  Fundamental frequency in Hz, or 0.0f if none detected.
  * @note    Destroys input signal.
  */
-float32_t mpm_get_pitch_f32(
+float mpm_get_pitch_f32(
     float32_t *signal,
     const uint32_t len,
     const uint32_t fs,
