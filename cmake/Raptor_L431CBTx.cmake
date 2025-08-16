@@ -10,7 +10,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 #               INCLUDES               #
 #--------------------------------------#
 target_include_directories(${PROJECT_NAME} PRIVATE
-
     ${DIR_SRC}
     ${DIR_SRC}/autotune
     ${DIR_BOARD_RAPTOR_L431CBTx}
@@ -22,7 +21,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE
     ${DIR_CMSIS}/Include
     ${DIR_CMSIS}/DSP/Include
 )
-
 
 #--------------------------------------#
 #          MCU FLAGS                   #
@@ -56,65 +54,50 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
     ${DIR_CMSIS}/DSP/Lib/GCC/libarm_cortexM4lf_math.a
 )
 
-
 #--------------------------------------#
 #             APPLICATION              #
 #--------------------------------------#
-set(SOURCES
-    ${DIR_SRC}/main.c
-    ${DIR_SRC}/autotune/autotune.c
-    ${DIR_SRC}/autotune/mpm.c
-    ${DIR_SRC}/autotune/filter.c
+file(GLOB APP_AUTOTUNE CONFIGURE_DEPENDS
+    "${DIR_SRC}/autotune/*.c"
 )
 
 #--------------------------------------#
 #               DRIVERS                #
 #--------------------------------------#
+set(BOARD_STARTUP "${DIR_BOARD_RAPTOR_L431CBTx}/system/startup_stm32l431cbtx.s")
 
-# Raptor L431CBTx Board
-list(APPEND SOURCES
-    # startup
-    ${DIR_BOARD_RAPTOR_L431CBTx}/system/startup_stm32l431cbtx.s
-    # api
-    ${DIR_BOARD_RAPTOR_L431CBTx}/device_api.c
-    # drivers
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/adc.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/clock.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/dma.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/gpio.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/timer.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/error_handler.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/stm32l4xx_hal_msp.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/setup/stm32l4xx_it.c
-    # system
-    ${DIR_BOARD_RAPTOR_L431CBTx}/system/syscalls.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/system/sysmem.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/system/system_stm32l4xx.c 
-    # debug
-    ${DIR_BOARD_RAPTOR_L431CBTx}/debug/usart.c
-    ${DIR_BOARD_RAPTOR_L431CBTx}/debug/debug-utils.c
+file(GLOB BOARD_API CONFIGURE_DEPENDS
+    "${DIR_BOARD_RAPTOR_L431CBTx}/device_api.c"
+)
+file(GLOB BOARD_SETUP CONFIGURE_DEPENDS
+    "${DIR_BOARD_RAPTOR_L431CBTx}/setup/*.c"
+)
+file(GLOB BOARD_SYSTEM CONFIGURE_DEPENDS
+    "${DIR_BOARD_RAPTOR_L431CBTx}/system/*.c"
+)
+file(GLOB BOARD_DEBUG CONFIGURE_DEPENDS
+    "${DIR_BOARD_RAPTOR_L431CBTx}/debug/*.c"
 )
 
 #--------------------------------------#
 #             STM32L4 HAL              #
 #--------------------------------------#
-list(APPEND SOURCES
-    ${DIR_L4HAL}/Src/stm32l4xx_hal.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_gpio.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_rcc.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_uart.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_dma.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_flash.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_pwr.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_cortex.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_pwr_ex.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_adc.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_adc_ex.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_uart_ex.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_rcc_ex.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_tim.c
-    ${DIR_L4HAL}/Src/stm32l4xx_hal_tim_ex.c
+file(GLOB HAL_SOURCES CONFIGURE_DEPENDS
+    "${DIR_L4HAL}/Src/*.c"
 )
 
+#--------------------------------------#
+#            SOURCE LIST                #
+#--------------------------------------#
+set(SOURCES
+    ${DIR_SRC}/main.c
+    ${APP_AUTOTUNE}
+    ${BOARD_STARTUP}
+    ${BOARD_API}
+    ${BOARD_SETUP}
+    ${BOARD_SYSTEM}
+    ${BOARD_DEBUG}
+    ${HAL_SOURCES}
+)
 
-
+target_sources(${PROJECT_NAME} PRIVATE ${SOURCES})
