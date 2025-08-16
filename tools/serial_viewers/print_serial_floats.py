@@ -24,7 +24,8 @@ def raw_data():
                 #time.sleep(0.3)
                 #sys.stdout.flush()
                 for val in floats:
-                    print(f"{val:.3f}")
+                    print(f"{val:05.1f}", end=" ")
+                print()
                     
     except KeyboardInterrupt:
         print("\nStopped")
