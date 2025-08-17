@@ -12,10 +12,6 @@ extern q15_t iir_state_q15[4 * NUM_IIR_STAGES];
 extern arm_biquad_casd_df1_inst_f32 iir_settings_f32;
 extern arm_biquad_casd_df1_inst_q15 iir_settings_q15;
 
-
-
-
-
 void init_iir_filter_f32(void);
 void init_iir_filter_q15(void);
 void filter_and_remove_dc_f32(const uint16_t *src, float32_t *y, int len);
