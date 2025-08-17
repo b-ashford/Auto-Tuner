@@ -4,6 +4,8 @@
 #include "arm_math.h"
 #include <stdint.h>
 
+
+
 #define SIGNAL_BUFF_LEN 1024
 #define ADC_BUFF_LEN 2 * SIGNAL_BUFF_LEN
 #define ADC_SAMPLE_RATE 8000

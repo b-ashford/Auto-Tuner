@@ -7,6 +7,8 @@
 #include "stm32l4xx_hal.h"
 #include "setup/adc.h"
 
+#define ALIGN4 __attribute__((aligned(4))) // DMA must be aligned
+
 void device_init(void);
 
 //--------------------------------------//
@@ -22,4 +24,11 @@ void device_register_adc_conv_complete_callback(adc_callback_t callback);
 void device_start_adc(uint16_t *buffer, size_t buffer_len);
 void device_stop_adc(void);
 
+//--------------------------------------//
+//              MOTOR PWM               //
+//--------------------------------------//
+// [-100%, 100%]
+void device_motor_adjust_speed(int speed_percent);
+void device_motor_on(int speed_percent);
+void device_motor_off(void);
 #endif /*RAPTOR_L431CBTx_DEVICE_API_H*/
