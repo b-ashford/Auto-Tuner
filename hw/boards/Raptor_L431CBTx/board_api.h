@@ -1,34 +1,34 @@
-#ifndef RAPTOR_L431CBTx_DEVICE_API_H
-#define RAPTOR_L431CBTx_DEVICE_API_H
+#ifndef RAPTOR_L431CBTx_BOARD_API_H
+#define RAPTOR_L431CBTx_BOARD_API_H
 
 #include <stdint.h>
 #include <stddef.h>
-#include "device_api.h"
+#include "board_api.h"
 #include "stm32l4xx_hal.h"
 #include "setup/adc.h"
 
 #define ALIGN4 __attribute__((aligned(4))) // DMA must be aligned
 
-void device_init(void);
+void board_init(void);
 
 //--------------------------------------//
 //              UTIL APIs               //
 //--------------------------------------//
-void device_toggle_led(void);
-void device_delay_ms(int time_ms);
+void board_toggle_led(void);
+void board_delay_ms(int time_ms);
 
 //--------------------------------------//
 //               ADC APIs               //
 //--------------------------------------//
-void device_register_adc_conv_complete_callback(adc_callback_t callback);
-void device_start_adc(uint16_t *buffer, size_t buffer_len);
-void device_stop_adc(void);
+void board_register_adc_conv_complete_callback(adc_callback_t callback);
+void board_start_adc(uint16_t *buffer, size_t buffer_len);
+void board_stop_adc(void);
 
 //--------------------------------------//
 //              MOTOR PWM               //
 //--------------------------------------//
 // [-100%, 100%]
-void device_motor_adjust_speed(int speed_percent);
-void device_motor_on(int speed_percent);
-void device_motor_off(void);
-#endif /*RAPTOR_L431CBTx_DEVICE_API_H*/
+void board_motor_adjust_speed(int speed_percent);
+void board_motor_on(int speed_percent);
+void board_motor_off(void);
+#endif /*RAPTOR_L431CBTx_BOARD_API_H*/

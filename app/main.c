@@ -1,5 +1,5 @@
 #include "main.h"
-#include "device_api.h"
+#include "board_api.h"
 #include "debug/usart.h"
 
 #include "autotune.h"
@@ -9,7 +9,7 @@ int main(void)
   CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
   DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
   DWT->CYCCNT = 0;
-  device_init();
+  board_init();
 
   start_autotune_mode();
 

@@ -1,6 +1,6 @@
 
 #include "autotune.h"
-#include "device_api.h"
+#include "board_api.h"
 #include "mpm.h"
 #include "debug/usart.h"
 #include "filter.h"
@@ -23,10 +23,11 @@ float detected = 0.0f;
 //============================================================================
 void start_autotune_mode(void)
 {
-    device_register_adc_conv_complete_callback(autotune_mode);
+    board_register_adc_conv_complete_callback(autotune_mode);
     init_iir_filter_f32();
-    device_start_adc(adc_buffer, ADC_BUFF_LEN);
-    device_motor_on(500);
+    board_start_adc(adc_buffer, ADC_BUFF_LEN);
+    board_motor_on(9100);
+    board_motor_on(9000);
     
     
     
@@ -34,7 +35,7 @@ void start_autotune_mode(void)
 
 void autotune_mode(int buffer_section)
 {
-    //device_toggle_led();
+    board_toggle_led();
     uint32_t start_cycles = DWT->CYCCNT;
     float32_t *signal = process_adc(buffer_section);
     float error_cents = get_pitch_error_cents(signal);
