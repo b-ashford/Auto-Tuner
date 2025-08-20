@@ -1,29 +1,97 @@
 cmake_minimum_required(VERSION 3.10)
+include(cmake/globals.cmake)
 
-# Set default toolchain if not specified
 if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
-    set(CMAKE_TOOLCHAIN_FILE ${CMAKE_SOURCE_DIR}/cmake/arm-none-eabi-toolchain.cmake)
+    set(
+        CMAKE_TOOLCHAIN_FILE
+        "${TOOLCHAIN_ARM_NONE_EABI}"
+        CACHE FILEPATH "Toolchain file"
+    )
 endif()
-
 project(AutoTuner C ASM)
 
-set(BOARD "Raptor_L431CBTx" CACHE STRING "Target board")
+#--------------------------------------#
+#           BOARD SELECTION            #
+#--------------------------------------#
+# Add new boards by following this convention:
+# .
+# ├── boards/
+# │   └── <BOARD>/
+# │       └── <BOARD>.cmake   # board-specific build
+# │       └── <BOARD>.cfg     # board-specific flash config
+# ├── app/                    # application sources
+# └── ...                     # other dirs (drivers, system, etc.) 
 
-include(cmake/paths.cmake)
+# Default board
+if(NOT DEFINED BOARD)
+    set(BOARD "${BOARD_RAPTOR}" CACHE STRING "Target board")
+endif()
 
+set(_board_file "${DIR_BOARDS}/${BOARD}/${BOARD}.cmake")
+
+if(EXISTS "${_board_file}")
+    include("${_board_file}")
+else()
+    message(FATAL_ERROR
+        "Board '${BOARD}' not found.\n"
+        "Expected file: ${_board_file}\n"
+        "Each board must live under ${DIR_BOARDS}/<BOARD>/ "
+        "and be named <BOARD>.cmake"
+    )
+endif()
+
+if(NOT DEFINED SRC_BOARD)
+    message(FATAL_ERROR
+        "Board file did not set SRC_BOARD for BOARD='${BOARD}'.\n"
+        "Each board.cmake must assign all its sources to SRC_BOARD."
+    )
+endif()
+if(NOT DEFINED INC_BOARD)
+    message(FATAL_ERROR
+        "Board file did not set INC_BOARD for BOARD='${BOARD}'.\n"
+        "Each <BOARD>.cmake must assign all its include paths to INC_BOARD."
+    )
+endif()
+
+list(LENGTH SRC_BOARD _sb_len)
+if(_sb_len EQUAL 0)
+    message(FATAL_ERROR "SRC_BOARD is empty for BOARD='${BOARD}'.")
+endif()
+foreach(_inc IN LISTS INC_BOARD)
+    if(NOT IS_DIRECTORY "${_inc}")
+        message(FATAL_ERROR "INC_BOARD contains non-existent dir: ${_inc}")
+    endif()
+endforeach()
+
+#--------------------------------------#
+#            BUILD PROJECT             #
+#--------------------------------------#
 add_executable(${PROJECT_NAME})
 
 
-if(BOARD STREQUAL "Raptor_L431CBTx")
-    include(cmake/Raptor_L431CBTx.cmake)
-else()
-    message(FATAL_ERROR "Unsupported BOARD: ${BOARD}")
+# Aggregate includes (INC_BOARD is a list → no quotes)
+target_include_directories(${PROJECT_NAME} PRIVATE
+    ${DIR_APP}
+    ${DIR_APP_AUTOTUNE}
+    ${INC_BOARD}
+)
+
+# Aggregate sources (lists → no quotes)
+file(GLOB SRC_AUTOTUNE CONFIGURE_DEPENDS "${DIR_APP_AUTOTUNE}/*.c")
+target_sources(${PROJECT_NAME} PRIVATE
+    ${DIR_APP}/main.c
+    ${SRC_AUTOTUNE}
+    ${SRC_BOARD}
+)
+
+set(FLASH_CFG "${DIR_BOARDS}/${BOARD}/${BOARD}.cfg")
+if(NOT EXISTS "${FLASH_CFG}")
+  message(FATAL_ERROR "Missing OpenOCD cfg: ${FLASH_CFG}")
 endif()
 
-target_sources(${PROJECT_NAME} PRIVATE ${SOURCES})
-
-add_custom_target(flash
-    COMMAND openocd -f ${CMAKE_SOURCE_DIR}/tools/debug/Raptor_L431CBTx.cfg
-                    -c "program ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME} verify reset exit"
-    DEPENDS ${PROJECT_NAME}
-)
+if(DEFINED LIBS_BOARD)
+  target_link_libraries(${PROJECT_NAME} PRIVATE ${LIBS_BOARD})
+endif()
+if(DEFINED DEFS_BOARD)
+  target_compile_definitions(${PROJECT_NAME} PRIVATE ${DEFS_BOARD})
+endif()
