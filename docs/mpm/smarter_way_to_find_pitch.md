@@ -35,10 +35,10 @@ There are a two main ways of defining the Autocorrelation Function (ACF). We wil
 
 We define the ACF type I of a discrete signal $x_t$ as:
 
-$$
+```math
 r_t(\tau) = \sum_{j=t}^{t+W-1} x_j\,x_{j+\tau}
 \tag{1}
-$$
+```
 
 where $r_t(\tau)$ is the autocorrelation function of lag $\tau$ calculated starting at time index $t$, where $W$ is the initial window size, i.e the number of terms in the summation.
 
@@ -63,8 +63,7 @@ $$
 and the SDF Type II is defined as:
 
 $$
-d'_t(\tau)=\sum_{j=t}^{\,t+W-1-\tau}
-\bigl(x_j - x_{j+\tau}\bigr)^2
+d'_t(\tau)=\sum_{j=t}^{\,t+W-1-\tau}\bigl(x_j - x_{j+\tau}\bigr)^2
 \tag{4}
 $$
 
@@ -79,8 +78,7 @@ $$
 If we define
 
 $$
-m'_t(\tau)=\sum_{j = t}^{\,t + W - 1 - \tau}
-\bigl(x_j^2 + x_{j+\tau}^2\bigr)
+m'_t(\tau)=\sum_{j = t}^{\,t + W - 1 - \tau}\bigl(x_j^2 + x_{j+\tau}^2\bigr)
 \tag{6}
 $$
 

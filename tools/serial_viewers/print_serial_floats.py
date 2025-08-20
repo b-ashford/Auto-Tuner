@@ -1,5 +1,7 @@
 import serial
 import struct
+import sys
+import time
 
 ser = serial.Serial('/dev/tty.usbmodem8332403', 921600, timeout=0.001)
 
@@ -17,8 +19,13 @@ def raw_data():
                 floats = struct.unpack(f'<{len(raw_data)//4}f', raw_data)
                 
                 # Print the float values
-                for float_val in floats:
-                    print(f"{float_val:.3f}")
+                #line = "\t".join(f"{v:7.1f}" for v in floats)
+                #print(line, end='\r')
+                #time.sleep(0.3)
+                #sys.stdout.flush()
+                for val in floats:
+                    print(f"{val:05.1f}", end=" ")
+                print()
                     
     except KeyboardInterrupt:
         print("\nStopped")
