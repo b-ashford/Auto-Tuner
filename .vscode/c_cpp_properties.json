@@ -8,12 +8,12 @@
       "intelliSenseMode": "gcc-arm",
       "includePath": [
         // Project
-        "${workspaceFolder}/src",
-         "${workspaceFolder}/src/autotune",
+        "${workspaceFolder}/app",
+         "${workspaceFolder}/app/autotune",
         // device
-        "${workspaceFolder}/drivers/device/Raptor_L431CBTx",
-        "${workspaceFolder}/drivers/device/Raptor_L431CBTx/setup",
-        "${workspaceFolder}/drivers/device/Raptor_L431CBTx/system",
+        "${workspaceFolder}/hw/boards/Raptor_L431CBTx",
+        "${workspaceFolder}/hw/boards/Raptor_L431CBTx/setup",
+        "${workspaceFolder}/hw/boards/Raptor_L431CBTx/system",
 
         // STM32L4_HAL
         "${workspaceFolder}/external/STM32CubeL4/STM32L4xx_HAL_Driver/Inc",

@@ -21,7 +21,10 @@
         "string.h": "c",
         "compare": "c",
         "cstdint": "c",
-        "mpm.h": "c"
+        "mpm.h": "c",
+        "timer.h": "c",
+        "board_api.h": "c",
+        "clock.h": "c"
     },
     "files.exclude": {
         "build": false,
