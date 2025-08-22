@@ -11,7 +11,7 @@
 #define ADC_SAMPLE_RATE 8000
 #define LAG_STOP_SEARCH 150
 #define CLARITY_RATIO 0.9f
-#define PEAK_THRESHOLD 0.5f
+#define PEAK_THRESHOLD 0.8f
 enum
 {
     FIRST_HALF,

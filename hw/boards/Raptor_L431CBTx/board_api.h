@@ -29,6 +29,6 @@ void board_stop_adc(void);
 //--------------------------------------//
 // [-100%, 100%]
 void board_motor_adjust_speed(int speed_percent);
-void board_motor_on(int speed_percent);
+void board_motor_on(void);
 void board_motor_off(void);
 #endif /*RAPTOR_L431CBTx_BOARD_API_H*/
