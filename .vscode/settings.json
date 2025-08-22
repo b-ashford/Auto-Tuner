@@ -24,7 +24,8 @@
         "mpm.h": "c",
         "timer.h": "c",
         "board_api.h": "c",
-        "clock.h": "c"
+        "clock.h": "c",
+        "dma.h": "c"
     },
     "files.exclude": {
         "build": false,

@@ -78,6 +78,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 # Aggregate sources (lists → no quotes)
 file(GLOB SRC_AUTOTUNE CONFIGURE_DEPENDS "${DIR_APP_AUTOTUNE}/*.c")
+file(GLOB SRC_UTILITIES CONFIGURE_DEPENDS "${DIR_APP_UTILITIES}/*.c")
 target_sources(${PROJECT_NAME} PRIVATE
     ${DIR_APP}/main.c
     ${SRC_AUTOTUNE}
@@ -95,3 +96,4 @@ endif()
 if(DEFINED DEFS_BOARD)
   target_compile_definitions(${PROJECT_NAME} PRIVATE ${DEFS_BOARD})
 endif()
+
