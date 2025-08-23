@@ -7,7 +7,7 @@
             "request": "launch",
             "servertype": "openocd",
             "configFiles": [
-                "tools/debug/Raptor_L431CBTx.cfg"
+                "${workspaceFolder}/hw/boards/Raptor_L431CBTx/Raptor_L431CBTx.cfg"
             ],
             "executable": "${workspaceFolder}/build/AutoTuner",
             "device": "STM32L431CBTx",
