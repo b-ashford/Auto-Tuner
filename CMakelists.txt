@@ -14,13 +14,12 @@ project(AutoTuner C ASM)
 #           BOARD SELECTION            #
 #--------------------------------------#
 # Add new boards by following this convention:
-# .
+#
+# hw/
 # ├── boards/
 # │   └── <BOARD>/
 # │       └── <BOARD>.cmake   # board-specific build
 # │       └── <BOARD>.cfg     # board-specific flash config
-# ├── app/                    # application sources
-# └── ...                     # other dirs (drivers, system, etc.) 
 
 # Default board
 if(NOT DEFINED BOARD)
@@ -69,14 +68,14 @@ endforeach()
 add_executable(${PROJECT_NAME})
 
 
-# Aggregate includes (INC_BOARD is a list → no quotes)
+# Aggregate includes 
 target_include_directories(${PROJECT_NAME} PRIVATE
     ${DIR_APP}
     ${DIR_APP_AUTOTUNE}
     ${INC_BOARD}
 )
 
-# Aggregate sources (lists → no quotes)
+# Aggregate sources 
 file(GLOB SRC_AUTOTUNE CONFIGURE_DEPENDS "${DIR_APP_AUTOTUNE}/*.c")
 file(GLOB SRC_UTILITIES CONFIGURE_DEPENDS "${DIR_APP_UTILITIES}/*.c")
 target_sources(${PROJECT_NAME} PRIVATE
