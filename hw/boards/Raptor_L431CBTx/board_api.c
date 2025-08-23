@@ -1,13 +1,16 @@
 
+#include "board_api.h"
+
 #include <stdint.h>
 #include <stdio.h>
 #include <math.h>
+
 #include "setup/clock.h"
 #include "setup/dma.h"
 #include "setup/gpio.h"
 #include "setup/timer.h"
-#include "board_api.h"
 #include "setup/stm32l4xx_hal_conf.h"
+
 #include "debug/usart.h"
 
 void board_init(void)

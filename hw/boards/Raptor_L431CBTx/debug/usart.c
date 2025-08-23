@@ -121,60 +121,6 @@ void debug_uart_dma_test_float_sine_wave(void)
    }
 }
 
-HAL_StatusTypeDef debug_uart_dma_float_buffer(float *buff, int len, uint32_t wait_ms)
-{
-   static uint32_t last_send_time = 0;
-   
-   uint32_t current_time = HAL_GetTick();
-   
-   if (current_time - last_send_time < wait_ms) {
-       return HAL_BUSY; 
-   }
-   
-   if (huart1.gState != HAL_UART_STATE_READY) {
-       return HAL_BUSY;  
-   }
-   
-   HAL_StatusTypeDef result = HAL_UART_Transmit_DMA(&huart1, (uint8_t *)buff, len * sizeof(float));
-   
-   if (result == HAL_OK) {
-       last_send_time = current_time;
-   }
-   
-   return result;
-}
-
-HAL_StatusTypeDef debug_uart_dma_uint16_buffer(uint16_t *buff, int len, uint32_t wait_ms)
-{
-  static uint32_t last_send_time = 0;
-  
-  uint32_t current_time = HAL_GetTick();
-  
-  if (current_time - last_send_time < wait_ms) {
-      return HAL_BUSY; 
-  }
-  
-  if (huart1.gState != HAL_UART_STATE_READY) {
-      return HAL_BUSY;  
-  }
-  
-  HAL_StatusTypeDef result = HAL_UART_Transmit_DMA(&huart1, (uint8_t *)buff, len * sizeof(uint16_t));
-  
-  if (result == HAL_OK) {
-      last_send_time = current_time;
-  }
-  
-  return result;
-}
-
-
-HAL_StatusTypeDef debug_uart_dma_print_string(const char *str)
-{
-   if (huart1.gState != HAL_UART_STATE_READY) {
-       return HAL_BUSY;  
-   }
-   return HAL_UART_Transmit_DMA(&huart1, (uint8_t *)str, strlen(str));
-}
 
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)

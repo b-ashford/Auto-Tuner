@@ -10,8 +10,8 @@
  * @date 15 Aug 2025
  */
 
-#ifndef MPM_H
-#define MPM_H
+#ifndef AUTOTUNE_MPM_H
+#define AUTOTUNE_MPM_H
 
 #include "arm_math.h"
 
@@ -19,9 +19,9 @@
 // Configuration Constants
 //==============================================================================
 
-#define MAX_NUM_PEAKS 15
+
 #define EPS 0.001f
-#define MPM_BUFF_SIZE 150
+
 
 //==============================================================================
 // Public API
@@ -47,4 +47,4 @@ float mpm_get_pitch_f32(
     const float32_t clarity_ratio,
     const float32_t peak_threshold);
 
-#endif
+#endif /* AUTOTUNE_MPM_H */

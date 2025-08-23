@@ -1,87 +1,72 @@
 
-#include "autotune.h"
+#include "autotune/autotune.h"
+#include "autotune/dsp.h"
+#include "autotune/music.h"
+#include "autotune/params.h"
+#include "autotune/filter.h"
+
 #include "board_api.h"
-#include "mpm.h"
-#include "debug/usart.h"
-#include "filter.h"
-#include "tuning_logic.h"
+#include "debug/utils.h"
 
-static ALIGN4 float32_t signal_buffer_f32[SIGNAL_BUFF_LEN];
+#include <stdbool.h>
+
 static ALIGN4 uint16_t adc_buffer[ADC_BUFF_LEN];
-static ALIGN4 float32_t debug_tx[SIGNAL_BUFF_LEN];
+static ALIGN4 float32_t signal_buffer_f32[SIGNAL_BUFF_LEN];
 
-static float inline get_pitch_error_cents(float32_t *signal);
 static float32_t *process_adc(int buffer_section);
-
-float target = 0.0f;
-float detected = 0.0f;
 
 //============================================================================
 // Public API
 //============================================================================
-void start_autotune_mode(void)
+void autotune_mode_init(void)
 {
-    board_register_adc_conv_complete_callback(autotune_mode);
     init_iir_filter_f32();
+    board_register_adc_conv_complete_callback(autotune_mode);
+    dsp_init();
+}
+
+void autotune_mode_run(void)
+{
     board_start_adc(adc_buffer, ADC_BUFF_LEN);
     board_motor_on();
 }
 
 void autotune_mode(int buffer_section)
 {
-    board_toggle_led();
-    uint32_t start_cycles = DWT->CYCCNT;
+    
+    uint32_t t0 = debug_start_cycle_count();
+
     float32_t *signal = process_adc(buffer_section);
-    float error_cents = get_pitch_error_cents(signal);
+    bool should_process = dsp_should_process(signal, SIGNAL_BUFF_LEN);
     //board_motor_adjust_speed(100);
-    //debug_uart_dma_float_buffer(signal, SIGNAL_BUFF_LEN, 1000);
-    uint32_t end_cycles = DWT->CYCCNT;
-    uint32_t processing_cycles = end_cycles - start_cycles;
-    float processing_time_us = (float)processing_cycles / 80.0f;
+    if (should_process == false)
+        return;
+    board_toggle_led();
+    float error_cents = dsp_get_pitch_error_cents(signal, SIGNAL_BUFF_LEN);
+
+    float t_us = debug_end_cycle_us(t0, 80.0f);
+    debug_uart_dma_float_buffer(signal,1024 , 500);
 }
 
 //============================================================================
 // Private
 //============================================================================
-static float inline get_pitch_error_cents(float32_t *signal)
-{
-
-    float detected_freq = mpm_get_pitch_f32(
-        signal,
-        SIGNAL_BUFF_LEN,
-        ADC_SAMPLE_RATE,
-        LAG_STOP_SEARCH,
-        CLARITY_RATIO,
-        PEAK_THRESHOLD);
-
-    float target_freq = get_target_freq(detected_freq);
-    float error_cents = get_error_in_cents(detected_freq, target_freq);
-    target = target_freq;
-    detected = detected_freq;
-    debug_uart_dma_float_buffer(&detected_freq,1, 1000);
-
-    return error_cents;
-}
-
 static float32_t *process_adc(int buffer_section)
 {
     if (buffer_section == FIRST_HALF)
     {
 
-        filter_and_remove_dc_f32(
+        bandpass_filter_f32(
             &adc_buffer[0],
             signal_buffer_f32,
             SIGNAL_BUFF_LEN);
     }
     else
     {
-        filter_and_remove_dc_f32(
+        bandpass_filter_f32(
             &adc_buffer[SIGNAL_BUFF_LEN],
             signal_buffer_f32,
             SIGNAL_BUFF_LEN);
     }
-
-    // debug_uart_dma_float_buffer(debug_tx, SIGNAL_BUFF_LEN, 1000);
-
     return signal_buffer_f32;
 }

@@ -7,9 +7,11 @@
  *
  */
 
-#include "mpm.h"
-#include "filter.h"
-#include "debug/usart.h"
+#include "autotune/mpm.h"
+#include "autotune/filter.h"
+#include "autotune/params.h"
+
+#include "debug/utils.h"
 #include <stdbool.h>
 
 //==============================================================================
@@ -17,20 +19,20 @@
 //==============================================================================
 static void nsdf(float32_t *signal, const uint32_t len, float32_t *out);
 static uint16_t estimate_pitch_period_lag(
-	float32_t *signal,
-	uint16_t signal_len,
-	uint16_t stop_search,
-	float32_t clarity_ratio,
-	float32_t min_peak_threshold);
+    float32_t *signal,
+    uint16_t signal_len,
+    uint16_t stop_search,
+    float32_t clarity_ratio,
+    float32_t min_peak_threshold);
 static inline float32_t parabolic_interpolation(float32_t x_pos,
-												float32_t a,
-												float32_t b,
-												float32_t c);
+                                                float32_t a,
+                                                float32_t b,
+                                                float32_t c);
 static void xcorr_positive_sided(
-	const float32_t *in1,
-	const float32_t *in2,
-	const uint32_t len,
-	float32_t *out);
+    const float32_t *in1,
+    const float32_t *in2,
+    const uint32_t len,
+    float32_t *out);
 
 //==============================================================================
 // Public API
@@ -58,7 +60,7 @@ float mpm_get_pitch_f32(
     float32_t c = nsdf_signal[lag + 1];
 
     float32_t delta_lag = parabolic_interpolation(lag, a, b, c);
-    return (float) (fs / delta_lag);
+    return (float)(fs / delta_lag);
 }
 
 //==============================================================================
@@ -67,7 +69,7 @@ float mpm_get_pitch_f32(
 static void nsdf(float32_t *signal, const uint32_t len, float32_t *out)
 {
     xcorr_positive_sided(signal, signal, len, out);
-
+    
     float32_t *x_squared = signal;
     for (uint32_t i = 0; i < len; i++)
         signal[i] = signal[i] * signal[i];
@@ -112,8 +114,8 @@ static uint16_t estimate_pitch_period_lag(
     uint16_t max_peak_lag = 0;
 
     // Results storage
-    float32_t peaks[MAX_NUM_PEAKS] = {0.0};
-    uint16_t lags[MAX_NUM_PEAKS] = {0};
+    float32_t peaks[MPM_MAX_NUM_PEAKS] = {0.0};
+    uint16_t lags[MPM_MAX_NUM_PEAKS] = {0};
     uint16_t peak_counter = 0;
     float32_t global_max_peak_value = 0.0f;
 
@@ -156,7 +158,7 @@ static uint16_t estimate_pitch_period_lag(
 
         if (save_max_peak &&
             (max_peak_value > min_peak_threshold) &&
-            peak_counter < MAX_NUM_PEAKS)
+            peak_counter < MPM_MAX_NUM_PEAKS)
         {
             peaks[peak_counter] = max_peak_value;
             lags[peak_counter] = max_peak_lag;
@@ -193,7 +195,8 @@ static inline float32_t parabolic_interpolation(float32_t x_pos,
                                                 float32_t b,
                                                 float32_t c)
 {
-    float denom = (a - 2.0f*b + c);
-    if (fabsf(denom) < 1e-12f) return x_pos;
-    return x_pos + 0.5f*(a - c)/denom;
+    float denom = (a - 2.0f * b + c);
+    if (fabsf(denom) < 1e-12f)
+        return x_pos;
+    return x_pos + 0.5f * (a - c) / denom;
 }
