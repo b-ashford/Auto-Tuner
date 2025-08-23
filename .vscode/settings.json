@@ -25,7 +25,13 @@
         "timer.h": "c",
         "board_api.h": "c",
         "clock.h": "c",
-        "dma.h": "c"
+        "dma.h": "c",
+        "usart.h": "c",
+        "utils.h": "c",
+        "filter.h": "c",
+        "dsp_pipeline.h": "c",
+        "music.h": "c",
+        "params.h": "c"
     },
     "files.exclude": {
         "build": false,
