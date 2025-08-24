@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import Optional, Tuple, Sequence
 import time
+import csv
 
 def create_sinewave(fs, freq, length, amplitude=1, decay_rate=50):
     time = [t * 1/fs for t in range(length)]
@@ -175,3 +176,42 @@ def peak_picking_optimised(signal, threshold, stop_search=15):
             max_peak_lag = tau
     return max_peak_lag
 
+
+def plot_gate_debug(time, signal, E_db_arr, F_arr, Ton_arr, Toff_arr, gate_arr):
+    """Plot signal, gate state, and adaptive noise gate thresholds"""
+    plt.figure(figsize=(12,6))
+
+    # Signal normalised
+    signal_norm = signal / np.max(np.abs(signal))
+    plt.plot(time, signal_norm, label="Signal (norm)", alpha=0.7, color="steelblue")
+
+    # Gate as filled region
+    plt.fill_between(time, -1, 1, where=gate_arr>0,
+                     color="orange", alpha=0.3, label="Gate OPEN")
+
+    # Normalise helper
+    def norm_to_unit(x):
+        return (x - np.min(E_db_arr)) / (np.max(E_db_arr) - np.min(E_db_arr))
+
+    # Energy / thresholds
+    plt.plot(time, norm_to_unit(E_db_arr), label="Energy (dB, norm)", color="green")
+    plt.plot(time, norm_to_unit(F_arr), label="Floor (dB, norm)", color="red")
+    plt.plot(time, norm_to_unit(Ton_arr), label="Ton (dB, norm)", color="purple")
+    plt.plot(time, norm_to_unit(Toff_arr), label="Toff (dB, norm)", color="brown")
+
+    plt.xlabel("Time [s]")
+    plt.ylabel("Normalised scale")
+    plt.title("Adaptive Noise Gate: Signal, Gate, Energy, Floor, Thresholds")
+    plt.ylim(-1.2, 1.2)
+    plt.legend(loc="upper right")
+    plt.tight_layout()
+    plt.show()
+
+
+def load_floats_csv(filename):
+    values = []
+    with open(filename) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            values.extend([float(val) for val in row if val.strip()])
+    return np.array(values, dtype=float)
