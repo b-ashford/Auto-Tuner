@@ -44,10 +44,7 @@ where $r_t(\tau)$ is the autocorrelation function of lag $\tau$ calculated start
 
 We will define the ACF type II as:
 
-$$
-r'_t(\tau) = \sum_{j=t}^{t+W-1-\tau} x_j\,x_{j+\tau}
-\tag{2}
-$$
+$$r'_t(\tau) = \sum_{j=t}^{t+W-1-\tau} x_j\,x_{j+\tau}\tag{2}$$
 
 In this definition the window size decreases with increasing $\tau$. This has a tapering effect, with a smaller number of non-zero terms being used in the calculation at larger $\tau$. Note that ACF Type I and Type II are the same for a zero-padded data set, i.e $x_k = 0$ for $k > t + W - 1$.
 
