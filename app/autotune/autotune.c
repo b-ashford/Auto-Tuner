@@ -1,9 +1,10 @@
 
 #include "autotune/autotune.h"
-#include "autotune/dsp.h"
-#include "autotune/music.h"
+#include "autotune/pitch.h"
+#include "autotune/guitar.h"
 #include "autotune/params.h"
 #include "autotune/filter.h"
+#include "autotune/ang.h"
 
 #include "board_api.h"
 #include "debug/utils.h"
@@ -22,7 +23,7 @@ void autotune_mode_init(void)
 {
     init_iir_filter_f32();
     board_register_adc_conv_complete_callback(autotune_mode);
-    dsp_init();
+
 }
 
 void autotune_mode_run(void)
@@ -34,18 +35,20 @@ void autotune_mode_run(void)
 void autotune_mode(int buffer_section)
 {
     
+    
     uint32_t t0 = debug_start_cycle_count();
-
     float32_t *signal = process_adc(buffer_section);
-    bool should_process = dsp_should_process(signal, SIGNAL_BUFF_LEN);
-    //board_motor_adjust_speed(100);
-    if (should_process == false)
+    
+    bool gate_open = adaptive_noise_gate(signal, SIGNAL_BUFF_LEN);
+    
+    //board_motor_adjust_speed(-39);
+    if (gate_open == false)
         return;
     board_toggle_led();
-    float error_cents = dsp_get_pitch_error_cents(signal, SIGNAL_BUFF_LEN);
+    float error_cents = get_pitch_error_cents(signal, SIGNAL_BUFF_LEN);
 
     float t_us = debug_end_cycle_us(t0, 80.0f);
-    debug_uart_dma_float_buffer(signal,1024 , 500);
+    debug_uart_dma_float_buffer(&t_us,1 , 1000);
 }
 
 //============================================================================

@@ -125,7 +125,7 @@ static uint16_t estimate_pitch_period_lag(
     float32_t *next_val = signal + 1;
     for (uint16_t lag = 0; lag < stop_search; lag++, curr_val++, next_val++)
     {
-        if ((*curr_val >= -EPS) && (*next_val < -EPS))
+        if ((*curr_val >= -MPM_EPS) && (*next_val < -MPM_EPS))
         {
             start_search = lag;
             break;
@@ -142,15 +142,15 @@ static uint16_t estimate_pitch_period_lag(
         bool save_max_peak = false;
 
         // save_max_peak when exiting positive lobe
-        if ((*curr_val >= -EPS) && (*next_val < -EPS))
+        if ((*curr_val >= -MPM_EPS) && (*next_val < -MPM_EPS))
             save_max_peak = true;
 
         // save_max_peak if end-of-window and descending
-        if ((lag == stop_search - 1) && (*next_val < *curr_val - EPS))
+        if ((lag == stop_search - 1) && (*next_val < *curr_val - MPM_EPS))
             save_max_peak = true;
 
         // update max_peak_value with larger value if turning point found
-        if ((*curr_val > max_peak_value) && (*next_val < *curr_val - EPS))
+        if ((*curr_val > max_peak_value) && (*next_val < *curr_val - MPM_EPS))
         {
             max_peak_value = *curr_val;
             max_peak_lag = lag;

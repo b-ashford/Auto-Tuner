@@ -1,5 +1,5 @@
-#ifndef AUTOTUNE_MUSIC_H
-#define AUTOTUNE_MUSIC_H
+#ifndef GUITAR_H
+#define GUITAR_H
 
 #include <math.h>
 
@@ -32,7 +32,6 @@ static const char *const guitar_string_names[NOTE_COUNT] = {
     "B3",
     "E4"};
 
-float get_error_in_cents(float detected_freq, float target_freq);
-float get_target_freq(float detected_freq);
 
-#endif /* AUTOTUNE_MUSIC_H */
+
+#endif /* GUITAR_H */
