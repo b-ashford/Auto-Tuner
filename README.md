@@ -53,14 +53,11 @@ Since building the original Auto-Tuner, I’ve learned a lot and decided to rebu
 - OpenOCD (required for `make flash`)  
 1. **Using My Setup**  
   - Order the [RaptorXL4 breakout board](https://github.com/b-ashford/RaptorXL4) (KiCad design files available in that repo)  
-  - Connect a Piezo sensor to the ADC through a pre-amplifier that adds a DC bias of $3.3/2 \,\text{V}$, such as the example below:  
+  - Connect a Piezo sensor to the ADC through a [pre-amplifier](assets/Preamplifier.png) that adds a DC bias of $3.3/2 \,\text{V}$.
   - Connect a PWM-driven motor using either an H-bridge or a continuous rotation servo  
   (the demo video uses a **DF15RSMG 360° motor**) to pin **PA11**.  
   - Provide both a 3.3 V and a 5–6 V power source  
     (in the demo video: two AA batteries in series with an LDO regulator → 3.3 V).  
-
-
-    ![Pre-amplifier](assets/Preamplifier.png)
 
   - Clone the repository
    ```bash
