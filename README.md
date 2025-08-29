@@ -90,3 +90,13 @@ hw/
 │   │   ├── board_api.c                # Implementation of board APIs
 │   │   └── board_api.h                # API definitions (template provided)
 ```
+
+## Documentation
+- **Implementation Details**
+  - [McLeod’s Pitch Method](docs/mpm_direct.ipynb)
+  - [Optimising McLeod’s Pitch Method](docs/mpm_optimisation.ipynb)
+  - [Adaptive Noise Gate](docs/adaptive_noise_gate.ipynb)
+  - [Pitch Tracking](docs/pitch_tracking.ipynb)
+- **Reference Paper**
+  - McLeod’s original paper, transcribed to Markdown:  
+    [A Smarter Way to Find Pitch](docs/smarter_way_to_find_pitch.md)
