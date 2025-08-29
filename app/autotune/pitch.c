@@ -28,8 +28,9 @@ inline float get_pitch_error_cents(float32_t *signal, int len)
     float error_cents = get_error_in_cents(detected_freq, target_freq);
     target = target_freq;
     detected = detected_freq;
-
-    // debug_uart_dma_float_buffer(&detected_freq,1, 50);
+    
+    float dpack[3] = {error_cents, detected_freq, target_freq};
+    debug_uart_dma_float_buffer(dpack,3, 128);
 
     return error_cents;
 }

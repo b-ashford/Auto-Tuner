@@ -48,7 +48,7 @@ void autotune_mode(int buffer_section)
     float error_cents = get_pitch_error_cents(signal, SIGNAL_BUFF_LEN);
 
     float t_us = debug_end_cycle_us(t0, 80.0f);
-    debug_uart_dma_float_buffer(&t_us,1 , 1000);
+    //debug_uart_dma_float_buffer(&t_us,1 , 1000);
 }
 
 //============================================================================
