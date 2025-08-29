@@ -69,7 +69,7 @@ float mpm_get_pitch_f32(
 static void nsdf(float32_t *signal, const uint32_t len, float32_t *out)
 {
     xcorr_positive_sided(signal, signal, len, out);
-    
+
     float32_t *x_squared = signal;
     for (uint32_t i = 0; i < len; i++)
         signal[i] = signal[i] * signal[i];

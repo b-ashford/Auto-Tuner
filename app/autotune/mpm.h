@@ -5,7 +5,7 @@
  * Implementation of the McLeod Pitch Method for robust fundamental
  * frequency estimation using normalised square difference function.
  * See: docs/smarter_way_to_find_pitch.md
- * 
+ *
  * @author Bronston Ashford
  * @date 15 Aug 2025
  */
@@ -19,9 +19,7 @@
 // Configuration Constants
 //==============================================================================
 
-
 #define MPM_EPS 0.001f
-
 
 //==============================================================================
 // Public API

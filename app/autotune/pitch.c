@@ -12,7 +12,6 @@ static inline float get_target_freq(float detected_freq);
 float target = 0.0f;
 float detected = 0.0f;
 
-
 inline float get_pitch_error_cents(float32_t *signal, int len)
 {
 
@@ -28,9 +27,9 @@ inline float get_pitch_error_cents(float32_t *signal, int len)
     float error_cents = get_error_in_cents(detected_freq, target_freq);
     target = target_freq;
     detected = detected_freq;
-    
+
     float dpack[3] = {error_cents, detected_freq, target_freq};
-    debug_uart_dma_float_buffer(dpack,3, 128);
+    debug_uart_dma_float_buffer(dpack, 3, 128);
 
     return error_cents;
 }
@@ -49,7 +48,7 @@ static inline float get_error_in_cents(float detected_freq, float target_freq)
 static inline float get_target_freq(float detected_freq)
 {
     if (detected_freq <= 0.0f)
-        return note_freq[0]; 
+        return note_freq[0];
 
     int string_index = 0;
     float min_error = fabsf(

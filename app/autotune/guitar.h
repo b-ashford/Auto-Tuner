@@ -32,6 +32,4 @@ static const char *const guitar_string_names[NOTE_COUNT] = {
     "B3",
     "E4"};
 
-
-
 #endif /* GUITAR_H */

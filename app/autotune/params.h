@@ -12,7 +12,7 @@
 #define MPM_PEAK_THRESHOLD 0.8f
 #define MPM_MAX_NUM_PEAKS 15
 
-#define DSP_KON 10.0f 
+#define DSP_KON 10.0f
 #define DSP_KOFF 5.0f
 
 #endif /* AUTOTUNE_PARAMS_H */
