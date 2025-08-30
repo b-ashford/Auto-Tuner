@@ -1,3 +1,6 @@
+# Project
+.todo
+
 # STM32 Build Artifacts
 build/
 *.o
