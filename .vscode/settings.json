@@ -32,7 +32,8 @@
         "dsp_pipeline.h": "c",
         "music.h": "c",
         "params.h": "c",
-        "math.h": "c"
+        "math.h": "c",
+        "adc.h": "c"
     },
     "files.exclude": {
         "build": false,
