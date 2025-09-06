@@ -215,3 +215,29 @@ def load_floats_csv(filename):
         for row in reader:
             values.extend([float(val) for val in row if val.strip()])
     return np.array(values, dtype=float)
+
+
+import matplotlib.pyplot as plt
+
+def plot_pitch_tracking(target, detected_freq, error):
+    fig, (ax1, ax2) = plt.subplots(
+        2, 1, figsize=(9, 6), sharex=True, gridspec_kw={'height_ratios': [2, 1]}
+    )
+    
+    # --- Top plot: frequencies ---
+    ax1.plot(target, 'r--', lw=2, label='Target Frequency (Hz)')
+    ax1.plot(detected_freq, 'b', alpha=0.5, label='Detected Frequency (Hz)')
+    ax1.set_ylabel('Frequency (Hz)')
+    ax1.grid(True, ls='--', alpha=0.6)
+    ax1.legend(loc='upper left')
+    ax1.set_title("Pitch Tracking")
+    
+    # --- Bottom plot: error ---
+    ax2.plot(error, 'c', label='Error (cents)')
+    ax2.set_xlabel('Frame')
+    ax2.set_ylabel('Error (cents)')
+    ax2.grid(True, ls='--', alpha=0.6)
+    ax2.legend(loc='upper left')
+
+    plt.tight_layout()
+    plt.show()
